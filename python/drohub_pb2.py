@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0c\x64rohub.proto\"\x0e\n\x0c\x44roneRequest\"\x1d\n\nDroneReply\x12\x0f\n\x07message\x18\x01 \x01(\x08\x32]\n\x05\x44rone\x12)\n\tdoTakeoff\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12)\n\tdoLanding\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0c\x64rohub.proto\"\x0e\n\x0c\x44roneRequest\"F\n\rDronePosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\"\x1d\n\nDroneReply\x12\x0f\n\x07message\x18\x01 \x01(\x08\x32\x8f\x01\n\x05\x44rone\x12)\n\tdoTakeoff\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12)\n\tdoLanding\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12\x30\n\x0bgetPosition\x12\r.DroneRequest\x1a\x0e.DronePosition\"\x00\x30\x01\x62\x06proto3')
 )
 
 
@@ -50,6 +50,51 @@ _DRONEREQUEST = _descriptor.Descriptor(
 )
 
 
+_DRONEPOSITION = _descriptor.Descriptor(
+  name='DronePosition',
+  full_name='DronePosition',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='latitude', full_name='DronePosition.latitude', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='longitude', full_name='DronePosition.longitude', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='altitude', full_name='DronePosition.altitude', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=32,
+  serialized_end=102,
+)
+
+
 _DRONEREPLY = _descriptor.Descriptor(
   name='DroneReply',
   full_name='DroneReply',
@@ -76,11 +121,12 @@ _DRONEREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=32,
-  serialized_end=61,
+  serialized_start=104,
+  serialized_end=133,
 )
 
 DESCRIPTOR.message_types_by_name['DroneRequest'] = _DRONEREQUEST
+DESCRIPTOR.message_types_by_name['DronePosition'] = _DRONEPOSITION
 DESCRIPTOR.message_types_by_name['DroneReply'] = _DRONEREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -90,6 +136,13 @@ DroneRequest = _reflection.GeneratedProtocolMessageType('DroneRequest', (_messag
   # @@protoc_insertion_point(class_scope:DroneRequest)
   })
 _sym_db.RegisterMessage(DroneRequest)
+
+DronePosition = _reflection.GeneratedProtocolMessageType('DronePosition', (_message.Message,), {
+  'DESCRIPTOR' : _DRONEPOSITION,
+  '__module__' : 'drohub_pb2'
+  # @@protoc_insertion_point(class_scope:DronePosition)
+  })
+_sym_db.RegisterMessage(DronePosition)
 
 DroneReply = _reflection.GeneratedProtocolMessageType('DroneReply', (_message.Message,), {
   'DESCRIPTOR' : _DRONEREPLY,
@@ -106,8 +159,8 @@ _DRONE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=63,
-  serialized_end=156,
+  serialized_start=136,
+  serialized_end=279,
   methods=[
   _descriptor.MethodDescriptor(
     name='doTakeoff',
@@ -125,6 +178,15 @@ _DRONE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEREPLY,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getPosition',
+    full_name='Drone.getPosition',
+    index=2,
+    containing_service=None,
+    input_type=_DRONEREQUEST,
+    output_type=_DRONEPOSITION,
     serialized_options=None,
   ),
 ])
