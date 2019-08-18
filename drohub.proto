@@ -14,6 +14,8 @@ message DronePosition {
   double latitude = 1;
   double longitude = 2;
   double altitude = 3;
+  string serial = 4;
+  uint32 timestamp = 5;
 }
 
 // The response message containing the greetings
