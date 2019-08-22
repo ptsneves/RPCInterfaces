@@ -5,9 +5,18 @@ service Drone {
   rpc doTakeoff (DroneRequest) returns (DroneReply) {}
   rpc doLanding(DroneRequest) returns (DroneReply) {}
   rpc getPosition(DroneRequest) returns (stream DronePosition) {}
+  rpc moveToPosition(DroneRequestPosition) returns (DroneReply) {}
 }
 
 message DroneRequest {
+}
+
+message DroneRequestPosition {
+  double latitude = 1;
+  double longitude = 2;
+  double altitude = 3;
+  double heading = 4;
+  string serial = 5;
 }
 
 message DronePosition {

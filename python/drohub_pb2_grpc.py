@@ -29,6 +29,11 @@ class DroneStub(object):
         request_serializer=drohub__pb2.DroneRequest.SerializeToString,
         response_deserializer=drohub__pb2.DronePosition.FromString,
         )
+    self.moveToPosition = channel.unary_unary(
+        '/Drone/moveToPosition',
+        request_serializer=drohub__pb2.DronePosition.SerializeToString,
+        response_deserializer=drohub__pb2.DroneReply.FromString,
+        )
 
 
 class DroneServicer(object):
@@ -56,6 +61,13 @@ class DroneServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def moveToPosition(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_DroneServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -73,6 +85,11 @@ def add_DroneServicer_to_server(servicer, server):
           servicer.getPosition,
           request_deserializer=drohub__pb2.DroneRequest.FromString,
           response_serializer=drohub__pb2.DronePosition.SerializeToString,
+      ),
+      'moveToPosition': grpc.unary_unary_rpc_method_handler(
+          servicer.moveToPosition,
+          request_deserializer=drohub__pb2.DronePosition.FromString,
+          response_serializer=drohub__pb2.DroneReply.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
