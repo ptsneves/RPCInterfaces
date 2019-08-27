@@ -31,7 +31,7 @@ class DroneStub(object):
         )
     self.moveToPosition = channel.unary_unary(
         '/Drone/moveToPosition',
-        request_serializer=drohub__pb2.DronePosition.SerializeToString,
+        request_serializer=drohub__pb2.DroneRequestPosition.SerializeToString,
         response_deserializer=drohub__pb2.DroneReply.FromString,
         )
 
@@ -88,7 +88,7 @@ def add_DroneServicer_to_server(servicer, server):
       ),
       'moveToPosition': grpc.unary_unary_rpc_method_handler(
           servicer.moveToPosition,
-          request_deserializer=drohub__pb2.DronePosition.FromString,
+          request_deserializer=drohub__pb2.DroneRequestPosition.FromString,
           response_serializer=drohub__pb2.DroneReply.SerializeToString,
       ),
   }
