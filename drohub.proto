@@ -5,10 +5,23 @@ service Drone {
   rpc doTakeoff (DroneRequest) returns (DroneReply) {}
   rpc doLanding(DroneRequest) returns (DroneReply) {}
   rpc getPosition(DroneRequest) returns (stream DronePosition) {}
+  rpc getBatteryLevel(DroneRequest) returns (stream DroneBatteryLevel) {}
   rpc moveToPosition(DroneRequestPosition) returns (DroneReply) {}
 }
 
 message DroneRequest {
+}
+
+message DroneBatteryLevel {
+    double battery_level_percent = 1;
+    string serial = 2;
+    uint32 timestamp = 3;
+}
+
+message DroneBatteryHealth {
+    double battery_health_percent = 1;
+    string serial = 2;
+    uint32 timestamp = 3;
 }
 
 message DroneRequestPosition {
