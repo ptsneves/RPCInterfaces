@@ -6,6 +6,7 @@ service Drone {
   rpc doLanding(DroneRequest) returns (DroneReply) {}
   rpc getPosition(DroneRequest) returns (stream DronePosition) {}
   rpc getBatteryLevel(DroneRequest) returns (stream DroneBatteryLevel) {}
+  rpc getFlyingState(DroneRequest) returns (stream DroneFlyingState) {}
   rpc getRadioSignal(DroneRequest) returns (stream DroneRadioSignal) {}
   rpc moveToPosition(DroneRequestPosition) returns (DroneReply) {}
 }
@@ -33,6 +34,24 @@ message DroneRadioSignal {
     }
     string serial = 3;
     uint32 timestamp = 4;
+}
+
+message DroneFlyingState {
+  enum FlyingState {
+    LANDED = 0;
+    TAKING_OFF = 1;
+    HOVERING = 2;
+    FLYING = 3;
+    LANDING = 4;
+    EMERGENCY = 5;
+    USER_TAKEOFF = 6;
+    MOTOR_RAMPING = 7;
+    EMERGENCY_LANDING = 8;
+  }
+
+  FlyingState state = 1;
+  string serial = 2;
+  uint32 timestamp = 3;
 }
 
 message DroneRequestPosition {
