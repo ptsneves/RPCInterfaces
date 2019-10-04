@@ -9,6 +9,27 @@ service Drone {
   rpc getFlyingState(DroneRequest) returns (stream DroneFlyingState) {}
   rpc getRadioSignal(DroneRequest) returns (stream DroneRadioSignal) {}
   rpc moveToPosition(DroneRequestPosition) returns (DroneReply) {}
+  rpc getFileList(DroneRequest) returns (DroneFileList) {}
+}
+
+message FileEntry {
+  string resource_id = 1;
+  oneof Thumbnail {
+    string thumbnail_id = 2;
+  }
+
+  enum ResourceType {
+    VIDEO = 0;
+    IMAGE = 1;
+    OTHER = 2;
+  }
+  ResourceType resource_type = 3;
+}
+
+message DroneFileList {
+  repeated FileEntry file_entries = 1;
+  string serial = 2;
+  uint32 timestamp = 3;
 }
 
 message DroneRequest {

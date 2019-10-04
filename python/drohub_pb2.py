@@ -19,10 +19,36 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='drohub.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0c\x64rohub.proto\"\x0e\n\x0c\x44roneRequest\"U\n\x11\x44roneBatteryLevel\x12\x1d\n\x15\x62\x61ttery_level_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"W\n\x12\x44roneBatteryHealth\x12\x1e\n\x16\x62\x61ttery_health_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"n\n\x10\x44roneRadioSignal\x12\x18\n\x0esignal_quality\x18\x01 \x01(\x02H\x00\x12\x0e\n\x04rssi\x18\x02 \x01(\x02H\x00\x12\x0e\n\x06serial\x18\x03 \x01(\t\x12\x11\n\ttimestamp\x18\x04 \x01(\rB\r\n\x0bRadioOption\"\x81\x02\n\x10\x44roneFlyingState\x12,\n\x05state\x18\x01 \x01(\x0e\x32\x1d.DroneFlyingState.FlyingState\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x9b\x01\n\x0b\x46lyingState\x12\n\n\x06LANDED\x10\x00\x12\x0e\n\nTAKING_OFF\x10\x01\x12\x0c\n\x08HOVERING\x10\x02\x12\n\n\x06\x46LYING\x10\x03\x12\x0b\n\x07LANDING\x10\x04\x12\r\n\tEMERGENCY\x10\x05\x12\x10\n\x0cUSER_TAKEOFF\x10\x06\x12\x11\n\rMOTOR_RAMPING\x10\x07\x12\x15\n\x11\x45MERGENCY_LANDING\x10\x08\"n\n\x14\x44roneRequestPosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0f\n\x07heading\x18\x04 \x01(\x01\x12\x0e\n\x06serial\x18\x05 \x01(\t\"i\n\rDronePosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0e\n\x06serial\x18\x04 \x01(\t\x12\x11\n\ttimestamp\x18\x05 \x01(\r\"\x1d\n\nDroneReply\x12\x0f\n\x07message\x18\x01 \x01(\x08\x32\xf1\x02\n\x05\x44rone\x12)\n\tdoTakeoff\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12)\n\tdoLanding\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12\x30\n\x0bgetPosition\x12\r.DroneRequest\x1a\x0e.DronePosition\"\x00\x30\x01\x12\x38\n\x0fgetBatteryLevel\x12\r.DroneRequest\x1a\x12.DroneBatteryLevel\"\x00\x30\x01\x12\x36\n\x0egetFlyingState\x12\r.DroneRequest\x1a\x11.DroneFlyingState\"\x00\x30\x01\x12\x36\n\x0egetRadioSignal\x12\r.DroneRequest\x1a\x11.DroneRadioSignal\"\x00\x30\x01\x12\x36\n\x0emoveToPosition\x12\x15.DroneRequestPosition\x1a\x0b.DroneReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x0c\x64rohub.proto\"\xa6\x01\n\tFileEntry\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x16\n\x0cthumbnail_id\x18\x02 \x01(\tH\x00\x12.\n\rresource_type\x18\x03 \x01(\x0e\x32\x17.FileEntry.ResourceType\"/\n\x0cResourceType\x12\t\n\x05VIDEO\x10\x00\x12\t\n\x05IMAGE\x10\x01\x12\t\n\x05OTHER\x10\x02\x42\x0b\n\tThumbnail\"T\n\rDroneFileList\x12 \n\x0c\x66ile_entries\x18\x01 \x03(\x0b\x32\n.FileEntry\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x0e\n\x0c\x44roneRequest\"U\n\x11\x44roneBatteryLevel\x12\x1d\n\x15\x62\x61ttery_level_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"W\n\x12\x44roneBatteryHealth\x12\x1e\n\x16\x62\x61ttery_health_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"n\n\x10\x44roneRadioSignal\x12\x18\n\x0esignal_quality\x18\x01 \x01(\x02H\x00\x12\x0e\n\x04rssi\x18\x02 \x01(\x02H\x00\x12\x0e\n\x06serial\x18\x03 \x01(\t\x12\x11\n\ttimestamp\x18\x04 \x01(\rB\r\n\x0bRadioOption\"\x81\x02\n\x10\x44roneFlyingState\x12,\n\x05state\x18\x01 \x01(\x0e\x32\x1d.DroneFlyingState.FlyingState\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x9b\x01\n\x0b\x46lyingState\x12\n\n\x06LANDED\x10\x00\x12\x0e\n\nTAKING_OFF\x10\x01\x12\x0c\n\x08HOVERING\x10\x02\x12\n\n\x06\x46LYING\x10\x03\x12\x0b\n\x07LANDING\x10\x04\x12\r\n\tEMERGENCY\x10\x05\x12\x10\n\x0cUSER_TAKEOFF\x10\x06\x12\x11\n\rMOTOR_RAMPING\x10\x07\x12\x15\n\x11\x45MERGENCY_LANDING\x10\x08\"n\n\x14\x44roneRequestPosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0f\n\x07heading\x18\x04 \x01(\x01\x12\x0e\n\x06serial\x18\x05 \x01(\t\"i\n\rDronePosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0e\n\x06serial\x18\x04 \x01(\t\x12\x11\n\ttimestamp\x18\x05 \x01(\r\"\x1d\n\nDroneReply\x12\x0f\n\x07message\x18\x01 \x01(\x08\x32\xa1\x03\n\x05\x44rone\x12)\n\tdoTakeoff\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12)\n\tdoLanding\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12\x30\n\x0bgetPosition\x12\r.DroneRequest\x1a\x0e.DronePosition\"\x00\x30\x01\x12\x38\n\x0fgetBatteryLevel\x12\r.DroneRequest\x1a\x12.DroneBatteryLevel\"\x00\x30\x01\x12\x36\n\x0egetFlyingState\x12\r.DroneRequest\x1a\x11.DroneFlyingState\"\x00\x30\x01\x12\x36\n\x0egetRadioSignal\x12\r.DroneRequest\x1a\x11.DroneRadioSignal\"\x00\x30\x01\x12\x36\n\x0emoveToPosition\x12\x15.DroneRequestPosition\x1a\x0b.DroneReply\"\x00\x12.\n\x0bgetFileList\x12\r.DroneRequest\x1a\x0e.DroneFileList\"\x00\x62\x06proto3')
 )
 
 
+
+_FILEENTRY_RESOURCETYPE = _descriptor.EnumDescriptor(
+  name='ResourceType',
+  full_name='FileEntry.ResourceType',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='VIDEO', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='IMAGE', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='OTHER', index=2, number=2,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=123,
+  serialized_end=170,
+)
+_sym_db.RegisterEnumDescriptor(_FILEENTRY_RESOURCETYPE)
 
 _DRONEFLYINGSTATE_FLYINGSTATE = _descriptor.EnumDescriptor(
   name='FlyingState',
@@ -69,10 +95,104 @@ _DRONEFLYINGSTATE_FLYINGSTATE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=423,
-  serialized_end=578,
+  serialized_start=678,
+  serialized_end=833,
 )
 _sym_db.RegisterEnumDescriptor(_DRONEFLYINGSTATE_FLYINGSTATE)
+
+
+_FILEENTRY = _descriptor.Descriptor(
+  name='FileEntry',
+  full_name='FileEntry',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='resource_id', full_name='FileEntry.resource_id', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='thumbnail_id', full_name='FileEntry.thumbnail_id', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='resource_type', full_name='FileEntry.resource_type', index=2,
+      number=3, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+    _FILEENTRY_RESOURCETYPE,
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+    _descriptor.OneofDescriptor(
+      name='Thumbnail', full_name='FileEntry.Thumbnail',
+      index=0, containing_type=None, fields=[]),
+  ],
+  serialized_start=17,
+  serialized_end=183,
+)
+
+
+_DRONEFILELIST = _descriptor.Descriptor(
+  name='DroneFileList',
+  full_name='DroneFileList',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='file_entries', full_name='DroneFileList.file_entries', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='serial', full_name='DroneFileList.serial', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='timestamp', full_name='DroneFileList.timestamp', index=2,
+      number=3, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=185,
+  serialized_end=269,
+)
 
 
 _DRONEREQUEST = _descriptor.Descriptor(
@@ -94,8 +214,8 @@ _DRONEREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=16,
-  serialized_end=30,
+  serialized_start=271,
+  serialized_end=285,
 )
 
 
@@ -139,8 +259,8 @@ _DRONEBATTERYLEVEL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=32,
-  serialized_end=117,
+  serialized_start=287,
+  serialized_end=372,
 )
 
 
@@ -184,8 +304,8 @@ _DRONEBATTERYHEALTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=119,
-  serialized_end=206,
+  serialized_start=374,
+  serialized_end=461,
 )
 
 
@@ -239,8 +359,8 @@ _DRONERADIOSIGNAL = _descriptor.Descriptor(
       name='RadioOption', full_name='DroneRadioSignal.RadioOption',
       index=0, containing_type=None, fields=[]),
   ],
-  serialized_start=208,
-  serialized_end=318,
+  serialized_start=463,
+  serialized_end=573,
 )
 
 
@@ -285,8 +405,8 @@ _DRONEFLYINGSTATE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=321,
-  serialized_end=578,
+  serialized_start=576,
+  serialized_end=833,
 )
 
 
@@ -344,8 +464,8 @@ _DRONEREQUESTPOSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=580,
-  serialized_end=690,
+  serialized_start=835,
+  serialized_end=945,
 )
 
 
@@ -403,8 +523,8 @@ _DRONEPOSITION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=692,
-  serialized_end=797,
+  serialized_start=947,
+  serialized_end=1052,
 )
 
 
@@ -434,10 +554,16 @@ _DRONEREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=799,
-  serialized_end=828,
+  serialized_start=1054,
+  serialized_end=1083,
 )
 
+_FILEENTRY.fields_by_name['resource_type'].enum_type = _FILEENTRY_RESOURCETYPE
+_FILEENTRY_RESOURCETYPE.containing_type = _FILEENTRY
+_FILEENTRY.oneofs_by_name['Thumbnail'].fields.append(
+  _FILEENTRY.fields_by_name['thumbnail_id'])
+_FILEENTRY.fields_by_name['thumbnail_id'].containing_oneof = _FILEENTRY.oneofs_by_name['Thumbnail']
+_DRONEFILELIST.fields_by_name['file_entries'].message_type = _FILEENTRY
 _DRONERADIOSIGNAL.oneofs_by_name['RadioOption'].fields.append(
   _DRONERADIOSIGNAL.fields_by_name['signal_quality'])
 _DRONERADIOSIGNAL.fields_by_name['signal_quality'].containing_oneof = _DRONERADIOSIGNAL.oneofs_by_name['RadioOption']
@@ -446,6 +572,8 @@ _DRONERADIOSIGNAL.oneofs_by_name['RadioOption'].fields.append(
 _DRONERADIOSIGNAL.fields_by_name['rssi'].containing_oneof = _DRONERADIOSIGNAL.oneofs_by_name['RadioOption']
 _DRONEFLYINGSTATE.fields_by_name['state'].enum_type = _DRONEFLYINGSTATE_FLYINGSTATE
 _DRONEFLYINGSTATE_FLYINGSTATE.containing_type = _DRONEFLYINGSTATE
+DESCRIPTOR.message_types_by_name['FileEntry'] = _FILEENTRY
+DESCRIPTOR.message_types_by_name['DroneFileList'] = _DRONEFILELIST
 DESCRIPTOR.message_types_by_name['DroneRequest'] = _DRONEREQUEST
 DESCRIPTOR.message_types_by_name['DroneBatteryLevel'] = _DRONEBATTERYLEVEL
 DESCRIPTOR.message_types_by_name['DroneBatteryHealth'] = _DRONEBATTERYHEALTH
@@ -455,6 +583,20 @@ DESCRIPTOR.message_types_by_name['DroneRequestPosition'] = _DRONEREQUESTPOSITION
 DESCRIPTOR.message_types_by_name['DronePosition'] = _DRONEPOSITION
 DESCRIPTOR.message_types_by_name['DroneReply'] = _DRONEREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
+
+FileEntry = _reflection.GeneratedProtocolMessageType('FileEntry', (_message.Message,), dict(
+  DESCRIPTOR = _FILEENTRY,
+  __module__ = 'drohub_pb2'
+  # @@protoc_insertion_point(class_scope:FileEntry)
+  ))
+_sym_db.RegisterMessage(FileEntry)
+
+DroneFileList = _reflection.GeneratedProtocolMessageType('DroneFileList', (_message.Message,), dict(
+  DESCRIPTOR = _DRONEFILELIST,
+  __module__ = 'drohub_pb2'
+  # @@protoc_insertion_point(class_scope:DroneFileList)
+  ))
+_sym_db.RegisterMessage(DroneFileList)
 
 DroneRequest = _reflection.GeneratedProtocolMessageType('DroneRequest', (_message.Message,), dict(
   DESCRIPTOR = _DRONEREQUEST,
@@ -520,8 +662,8 @@ _DRONE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=831,
-  serialized_end=1200,
+  serialized_start=1086,
+  serialized_end=1503,
   methods=[
   _descriptor.MethodDescriptor(
     name='doTakeoff',
@@ -584,6 +726,15 @@ _DRONE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_DRONEREQUESTPOSITION,
     output_type=_DRONEREPLY,
+    options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getFileList',
+    full_name='Drone.getFileList',
+    index=7,
+    containing_service=None,
+    input_type=_DRONEREQUEST,
+    output_type=_DRONEFILELIST,
     options=None,
   ),
 ])
