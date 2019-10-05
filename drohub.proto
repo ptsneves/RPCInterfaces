@@ -10,6 +10,7 @@ service Drone {
   rpc getRadioSignal(DroneRequest) returns (stream DroneRadioSignal) {}
   rpc moveToPosition(DroneRequestPosition) returns (DroneReply) {}
   rpc getFileList(DroneRequest) returns (DroneFileList) {}
+  rpc getFileListStream(DroneRequest) returns (stream DroneFileList) {}
 }
 
 message FileEntry {

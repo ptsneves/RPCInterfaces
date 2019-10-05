@@ -54,6 +54,11 @@ class DroneStub(object):
         request_serializer=drohub__pb2.DroneRequest.SerializeToString,
         response_deserializer=drohub__pb2.DroneFileList.FromString,
         )
+    self.getFileListStream = channel.unary_stream(
+        '/Drone/getFileListStream',
+        request_serializer=drohub__pb2.DroneRequest.SerializeToString,
+        response_deserializer=drohub__pb2.DroneFileList.FromString,
+        )
 
 
 class DroneServicer(object):
@@ -116,6 +121,13 @@ class DroneServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def getFileListStream(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_DroneServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -156,6 +168,11 @@ def add_DroneServicer_to_server(servicer, server):
       ),
       'getFileList': grpc.unary_unary_rpc_method_handler(
           servicer.getFileList,
+          request_deserializer=drohub__pb2.DroneRequest.FromString,
+          response_serializer=drohub__pb2.DroneFileList.SerializeToString,
+      ),
+      'getFileListStream': grpc.unary_stream_rpc_method_handler(
+          servicer.getFileListStream,
           request_deserializer=drohub__pb2.DroneRequest.FromString,
           response_serializer=drohub__pb2.DroneFileList.SerializeToString,
       ),
