@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service Drone {
   // Sends a greeting
+  rpc sendVideoTo(DroneSendVideoRequest) returns (stream DroneVideoState) {}
   rpc doTakeoff (DroneRequest) returns (DroneReply) {}
   rpc doLanding(DroneRequest) returns (DroneReply) {}
   rpc getPosition(DroneRequest) returns (stream DronePosition) {}
@@ -25,6 +26,31 @@ message FileEntry {
     OTHER = 2;
   }
   ResourceType resource_type = 3;
+}
+
+message DroneSendVideoRequest {
+   enum VideoType {
+    VP8 = 0;
+    H264 = 1;
+  }
+  string rtp_url = 1;
+  VideoType video_type = 2;
+}
+
+message DroneVideoState {
+  enum State {
+    LIVE = 0;
+    STOPPED = 1;
+    DIED = 2;
+    INVALID_CONDITION = 3;
+  }
+  State state = 1;
+  oneof StateString {
+    string human_message = 2;
+  }
+  string rtp_url = 3;
+  string serial = 4;
+  uint32 timestamp = 5;
 }
 
 message DroneFileList {
