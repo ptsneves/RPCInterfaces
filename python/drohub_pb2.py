@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='drohub.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0c\x64rohub.proto\"\xa6\x01\n\tFileEntry\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x16\n\x0cthumbnail_id\x18\x02 \x01(\tH\x00\x12.\n\rresource_type\x18\x03 \x01(\x0e\x32\x17.FileEntry.ResourceType\"/\n\x0cResourceType\x12\t\n\x05VIDEO\x10\x00\x12\t\n\x05IMAGE\x10\x01\x12\t\n\x05OTHER\x10\x02\x42\x0b\n\tThumbnail\"~\n\x15\x44roneSendVideoRequest\x12\x0f\n\x07rtp_url\x18\x01 \x01(\t\x12\x34\n\nvideo_type\x18\x02 \x01(\x0e\x32 .DroneSendVideoRequest.VideoType\"\x1e\n\tVideoType\x12\x07\n\x03VP8\x10\x00\x12\x08\n\x04H264\x10\x01\"\xd5\x01\n\x0f\x44roneVideoState\x12%\n\x05state\x18\x01 \x01(\x0e\x32\x16.DroneVideoState.State\x12\x17\n\rhuman_message\x18\x02 \x01(\tH\x00\x12\x0f\n\x07rtp_url\x18\x03 \x01(\t\x12\x0e\n\x06serial\x18\x04 \x01(\t\x12\x11\n\ttimestamp\x18\x05 \x01(\r\"?\n\x05State\x12\x08\n\x04LIVE\x10\x00\x12\x0b\n\x07STOPPED\x10\x01\x12\x08\n\x04\x44IED\x10\x02\x12\x15\n\x11INVALID_CONDITION\x10\x03\x42\r\n\x0bStateString\"T\n\rDroneFileList\x12 \n\x0c\x66ile_entries\x18\x01 \x03(\x0b\x32\n.FileEntry\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x0e\n\x0c\x44roneRequest\"U\n\x11\x44roneBatteryLevel\x12\x1d\n\x15\x62\x61ttery_level_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"W\n\x12\x44roneBatteryHealth\x12\x1e\n\x16\x62\x61ttery_health_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"n\n\x10\x44roneRadioSignal\x12\x18\n\x0esignal_quality\x18\x01 \x01(\x02H\x00\x12\x0e\n\x04rssi\x18\x02 \x01(\x02H\x00\x12\x0e\n\x06serial\x18\x03 \x01(\t\x12\x11\n\ttimestamp\x18\x04 \x01(\rB\r\n\x0bRadioOption\"\x81\x02\n\x10\x44roneFlyingState\x12,\n\x05state\x18\x01 \x01(\x0e\x32\x1d.DroneFlyingState.FlyingState\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x9b\x01\n\x0b\x46lyingState\x12\n\n\x06LANDED\x10\x00\x12\x0e\n\nTAKING_OFF\x10\x01\x12\x0c\n\x08HOVERING\x10\x02\x12\n\n\x06\x46LYING\x10\x03\x12\x0b\n\x07LANDING\x10\x04\x12\r\n\tEMERGENCY\x10\x05\x12\x10\n\x0cUSER_TAKEOFF\x10\x06\x12\x11\n\rMOTOR_RAMPING\x10\x07\x12\x15\n\x11\x45MERGENCY_LANDING\x10\x08\"n\n\x14\x44roneRequestPosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0f\n\x07heading\x18\x04 \x01(\x01\x12\x0e\n\x06serial\x18\x05 \x01(\t\"i\n\rDronePosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0e\n\x06serial\x18\x04 \x01(\t\x12\x11\n\ttimestamp\x18\x05 \x01(\r\"\x1d\n\nDroneReply\x12\x0f\n\x07message\x18\x01 \x01(\x08\x32\x96\x04\n\x05\x44rone\x12;\n\x0bsendVideoTo\x12\x16.DroneSendVideoRequest\x1a\x10.DroneVideoState\"\x00\x30\x01\x12)\n\tdoTakeoff\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12)\n\tdoLanding\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12\x30\n\x0bgetPosition\x12\r.DroneRequest\x1a\x0e.DronePosition\"\x00\x30\x01\x12\x38\n\x0fgetBatteryLevel\x12\r.DroneRequest\x1a\x12.DroneBatteryLevel\"\x00\x30\x01\x12\x36\n\x0egetFlyingState\x12\r.DroneRequest\x1a\x11.DroneFlyingState\"\x00\x30\x01\x12\x36\n\x0egetRadioSignal\x12\r.DroneRequest\x1a\x11.DroneRadioSignal\"\x00\x30\x01\x12\x36\n\x0emoveToPosition\x12\x15.DroneRequestPosition\x1a\x0b.DroneReply\"\x00\x12.\n\x0bgetFileList\x12\r.DroneRequest\x1a\x0e.DroneFileList\"\x00\x12\x36\n\x11getFileListStream\x12\r.DroneRequest\x1a\x0e.DroneFileList\"\x00\x30\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0c\x64rohub.proto\"\xa6\x01\n\tFileEntry\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x16\n\x0cthumbnail_id\x18\x02 \x01(\tH\x00\x12.\n\rresource_type\x18\x03 \x01(\x0e\x32\x17.FileEntry.ResourceType\"/\n\x0cResourceType\x12\t\n\x05VIDEO\x10\x00\x12\t\n\x05IMAGE\x10\x01\x12\t\n\x05OTHER\x10\x02\x42\x0b\n\tThumbnail\"~\n\x15\x44roneSendVideoRequest\x12\x0f\n\x07rtp_url\x18\x01 \x01(\t\x12\x34\n\nvideo_type\x18\x02 \x01(\x0e\x32 .DroneSendVideoRequest.VideoType\"\x1e\n\tVideoType\x12\x07\n\x03VP8\x10\x00\x12\x08\n\x04H264\x10\x01\"\xd5\x01\n\x0f\x44roneVideoState\x12%\n\x05state\x18\x01 \x01(\x0e\x32\x16.DroneVideoState.State\x12\x17\n\rhuman_message\x18\x02 \x01(\tH\x00\x12\x0f\n\x07rtp_url\x18\x03 \x01(\t\x12\x0e\n\x06serial\x18\x04 \x01(\t\x12\x11\n\ttimestamp\x18\x05 \x01(\r\"?\n\x05State\x12\x08\n\x04LIVE\x10\x00\x12\x0b\n\x07STOPPED\x10\x01\x12\x08\n\x04\x44IED\x10\x02\x12\x15\n\x11INVALID_CONDITION\x10\x03\x42\r\n\x0bStateString\"T\n\rDroneFileList\x12 \n\x0c\x66ile_entries\x18\x01 \x03(\x0b\x32\n.FileEntry\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x0e\n\x0c\x44roneRequest\"U\n\x11\x44roneBatteryLevel\x12\x1d\n\x15\x62\x61ttery_level_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"W\n\x12\x44roneBatteryHealth\x12\x1e\n\x16\x62\x61ttery_health_percent\x18\x01 \x01(\x01\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"n\n\x10\x44roneRadioSignal\x12\x18\n\x0esignal_quality\x18\x01 \x01(\x02H\x00\x12\x0e\n\x04rssi\x18\x02 \x01(\x02H\x00\x12\x0e\n\x06serial\x18\x03 \x01(\t\x12\x11\n\ttimestamp\x18\x04 \x01(\rB\r\n\x0bRadioOption\"\x81\x02\n\x10\x44roneFlyingState\x12,\n\x05state\x18\x01 \x01(\x0e\x32\x1d.DroneFlyingState.FlyingState\x12\x0e\n\x06serial\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\r\"\x9b\x01\n\x0b\x46lyingState\x12\n\n\x06LANDED\x10\x00\x12\x0e\n\nTAKING_OFF\x10\x01\x12\x0c\n\x08HOVERING\x10\x02\x12\n\n\x06\x46LYING\x10\x03\x12\x0b\n\x07LANDING\x10\x04\x12\r\n\tEMERGENCY\x10\x05\x12\x10\n\x0cUSER_TAKEOFF\x10\x06\x12\x11\n\rMOTOR_RAMPING\x10\x07\x12\x15\n\x11\x45MERGENCY_LANDING\x10\x08\"n\n\x14\x44roneRequestPosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0f\n\x07heading\x18\x04 \x01(\x01\x12\x0e\n\x06serial\x18\x05 \x01(\t\"i\n\rDronePosition\x12\x10\n\x08latitude\x18\x01 \x01(\x01\x12\x11\n\tlongitude\x18\x02 \x01(\x01\x12\x10\n\x08\x61ltitude\x18\x03 \x01(\x01\x12\x0e\n\x06serial\x18\x04 \x01(\t\x12\x11\n\ttimestamp\x18\x05 \x01(\r\"\x1d\n\nDroneReply\x12\x0f\n\x07message\x18\x01 \x01(\x08\x32\xc5\x04\n\x05\x44rone\x12-\n\x0bpingService\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x30\x01\x12;\n\x0bsendVideoTo\x12\x16.DroneSendVideoRequest\x1a\x10.DroneVideoState\"\x00\x30\x01\x12)\n\tdoTakeoff\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12)\n\tdoLanding\x12\r.DroneRequest\x1a\x0b.DroneReply\"\x00\x12\x30\n\x0bgetPosition\x12\r.DroneRequest\x1a\x0e.DronePosition\"\x00\x30\x01\x12\x38\n\x0fgetBatteryLevel\x12\r.DroneRequest\x1a\x12.DroneBatteryLevel\"\x00\x30\x01\x12\x36\n\x0egetFlyingState\x12\r.DroneRequest\x1a\x11.DroneFlyingState\"\x00\x30\x01\x12\x36\n\x0egetRadioSignal\x12\r.DroneRequest\x1a\x11.DroneRadioSignal\"\x00\x30\x01\x12\x36\n\x0emoveToPosition\x12\x15.DroneRequestPosition\x1a\x0b.DroneReply\"\x00\x12.\n\x0bgetFileList\x12\r.DroneRequest\x1a\x0e.DroneFileList\"\x00\x12\x36\n\x11getFileListStream\x12\r.DroneRequest\x1a\x0e.DroneFileList\"\x00\x30\x01\x62\x06proto3')
 )
 
 
@@ -840,12 +840,21 @@ _DRONE = _descriptor.ServiceDescriptor(
   index=0,
   options=None,
   serialized_start=1430,
-  serialized_end=1964,
+  serialized_end=2011,
   methods=[
+  _descriptor.MethodDescriptor(
+    name='pingService',
+    full_name='Drone.pingService',
+    index=0,
+    containing_service=None,
+    input_type=_DRONEREQUEST,
+    output_type=_DRONEREPLY,
+    options=None,
+  ),
   _descriptor.MethodDescriptor(
     name='sendVideoTo',
     full_name='Drone.sendVideoTo',
-    index=0,
+    index=1,
     containing_service=None,
     input_type=_DRONESENDVIDEOREQUEST,
     output_type=_DRONEVIDEOSTATE,
@@ -854,7 +863,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='doTakeoff',
     full_name='Drone.doTakeoff',
-    index=1,
+    index=2,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEREPLY,
@@ -863,7 +872,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='doLanding',
     full_name='Drone.doLanding',
-    index=2,
+    index=3,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEREPLY,
@@ -872,7 +881,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='getPosition',
     full_name='Drone.getPosition',
-    index=3,
+    index=4,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEPOSITION,
@@ -881,7 +890,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='getBatteryLevel',
     full_name='Drone.getBatteryLevel',
-    index=4,
+    index=5,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEBATTERYLEVEL,
@@ -890,7 +899,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='getFlyingState',
     full_name='Drone.getFlyingState',
-    index=5,
+    index=6,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEFLYINGSTATE,
@@ -899,7 +908,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='getRadioSignal',
     full_name='Drone.getRadioSignal',
-    index=6,
+    index=7,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONERADIOSIGNAL,
@@ -908,7 +917,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='moveToPosition',
     full_name='Drone.moveToPosition',
-    index=7,
+    index=8,
     containing_service=None,
     input_type=_DRONEREQUESTPOSITION,
     output_type=_DRONEREPLY,
@@ -917,7 +926,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='getFileList',
     full_name='Drone.getFileList',
-    index=8,
+    index=9,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEFILELIST,
@@ -926,7 +935,7 @@ _DRONE = _descriptor.ServiceDescriptor(
   _descriptor.MethodDescriptor(
     name='getFileListStream',
     full_name='Drone.getFileListStream',
-    index=9,
+    index=10,
     containing_service=None,
     input_type=_DRONEREQUEST,
     output_type=_DRONEFILELIST,

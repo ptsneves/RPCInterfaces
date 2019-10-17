@@ -14,6 +14,11 @@ class DroneStub(object):
     Args:
       channel: A grpc.Channel.
     """
+    self.pingService = channel.unary_stream(
+        '/Drone/pingService',
+        request_serializer=drohub__pb2.DroneRequest.SerializeToString,
+        response_deserializer=drohub__pb2.DroneReply.FromString,
+        )
     self.sendVideoTo = channel.unary_stream(
         '/Drone/sendVideoTo',
         request_serializer=drohub__pb2.DroneSendVideoRequest.SerializeToString,
@@ -70,9 +75,16 @@ class DroneServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
-  def sendVideoTo(self, request, context):
+  def pingService(self, request, context):
     """Sends a greeting
     """
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def sendVideoTo(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -143,6 +155,11 @@ class DroneServicer(object):
 
 def add_DroneServicer_to_server(servicer, server):
   rpc_method_handlers = {
+      'pingService': grpc.unary_stream_rpc_method_handler(
+          servicer.pingService,
+          request_deserializer=drohub__pb2.DroneRequest.FromString,
+          response_serializer=drohub__pb2.DroneReply.SerializeToString,
+      ),
       'sendVideoTo': grpc.unary_stream_rpc_method_handler(
           servicer.sendVideoTo,
           request_deserializer=drohub__pb2.DroneSendVideoRequest.FromString,

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 service Drone {
   // Sends a greeting
+  rpc pingService(DroneRequest) returns (stream DroneReply) {}
   rpc sendVideoTo(DroneSendVideoRequest) returns (stream DroneVideoState) {}
   rpc doTakeoff (DroneRequest) returns (DroneReply) {}
   rpc doLanding(DroneRequest) returns (DroneReply) {}
