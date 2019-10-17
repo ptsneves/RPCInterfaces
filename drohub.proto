@@ -122,4 +122,6 @@ message DronePosition {
 // The response message containing the greetings
 message DroneReply {
   bool message = 1;
+  string serial = 2;
+  uint32 timestamp = 3;
 }
