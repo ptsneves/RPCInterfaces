@@ -6,6 +6,7 @@ service Drone {
   rpc sendVideoTo(DroneSendVideoRequest) returns (stream DroneVideoState) {}
   rpc doTakeoff (DroneRequest) returns (DroneReply) {}
   rpc doLanding(DroneRequest) returns (DroneReply) {}
+  rpc doReturnToHome(DroneRequest) returns (DroneReply) {}
   rpc getPosition(DroneRequest) returns (stream DronePosition) {}
   rpc getBatteryLevel(DroneRequest) returns (stream DroneBatteryLevel) {}
   rpc getFlyingState(DroneRequest) returns (stream DroneFlyingState) {}

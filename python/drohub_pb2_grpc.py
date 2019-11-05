@@ -34,6 +34,11 @@ class DroneStub(object):
         request_serializer=drohub__pb2.DroneRequest.SerializeToString,
         response_deserializer=drohub__pb2.DroneReply.FromString,
         )
+    self.doReturnToHome = channel.unary_unary(
+        '/Drone/doReturnToHome',
+        request_serializer=drohub__pb2.DroneRequest.SerializeToString,
+        response_deserializer=drohub__pb2.DroneReply.FromString,
+        )
     self.getPosition = channel.unary_stream(
         '/Drone/getPosition',
         request_serializer=drohub__pb2.DroneRequest.SerializeToString,
@@ -97,6 +102,13 @@ class DroneServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def doLanding(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def doReturnToHome(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -172,6 +184,11 @@ def add_DroneServicer_to_server(servicer, server):
       ),
       'doLanding': grpc.unary_unary_rpc_method_handler(
           servicer.doLanding,
+          request_deserializer=drohub__pb2.DroneRequest.FromString,
+          response_serializer=drohub__pb2.DroneReply.SerializeToString,
+      ),
+      'doReturnToHome': grpc.unary_unary_rpc_method_handler(
+          servicer.doReturnToHome,
           request_deserializer=drohub__pb2.DroneRequest.FromString,
           response_serializer=drohub__pb2.DroneReply.SerializeToString,
       ),
