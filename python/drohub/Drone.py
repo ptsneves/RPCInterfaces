@@ -30,7 +30,12 @@ class Iface(object):
         """
         pass
 
-    def getVideoState(self):
+    def getVideoState(self, request):
+        """
+        Parameters:
+         - request
+
+        """
         pass
 
     def doTakeoff(self):
@@ -131,13 +136,19 @@ class Client(Iface):
             return result.success
         raise TApplicationException(TApplicationException.MISSING_RESULT, "sendVideoTo failed: unknown result")
 
-    def getVideoState(self):
-        self.send_getVideoState()
+    def getVideoState(self, request):
+        """
+        Parameters:
+         - request
+
+        """
+        self.send_getVideoState(request)
         return self.recv_getVideoState()
 
-    def send_getVideoState(self):
+    def send_getVideoState(self, request):
         self._oprot.writeMessageBegin('getVideoState', TMessageType.CALL, self._seqid)
         args = getVideoState_args()
+        args.request = request
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -488,7 +499,7 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = getVideoState_result()
         try:
-            result.success = self._handler.getVideoState()
+            result.success = self._handler.getVideoState(args.request)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -946,7 +957,15 @@ sendVideoTo_result.thrift_spec = (
 
 
 class getVideoState_args(object):
+    """
+    Attributes:
+     - request
 
+    """
+
+
+    def __init__(self, request=None,):
+        self.request = request
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -957,6 +976,12 @@ class getVideoState_args(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.request = DroneSendVideoRequest()
+                    self.request.read(iprot)
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -967,6 +992,10 @@ class getVideoState_args(object):
             oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
             return
         oprot.writeStructBegin('getVideoState_args')
+        if self.request is not None:
+            oprot.writeFieldBegin('request', TType.STRUCT, 1)
+            self.request.write(oprot)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -985,6 +1014,8 @@ class getVideoState_args(object):
         return not (self == other)
 all_structs.append(getVideoState_args)
 getVideoState_args.thrift_spec = (
+    None,  # 0
+    (1, TType.STRUCT, 'request', [DroneSendVideoRequest, None], None, ),  # 1
 )
 
 

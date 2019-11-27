@@ -26,7 +26,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Functions:')
     print('  DroneReply pingService()')
     print('  DroneVideoStateResult sendVideoTo(DroneSendVideoRequest request)')
-    print('  DroneVideoStateResult getVideoState()')
+    print('  DroneVideoStateResult getVideoState(DroneSendVideoRequest request)')
     print('  DroneReply doTakeoff()')
     print('  DroneReply doLanding()')
     print('  DroneReply doReturnToHome()')
@@ -128,10 +128,10 @@ elif cmd == 'sendVideoTo':
     pp.pprint(client.sendVideoTo(eval(args[0]),))
 
 elif cmd == 'getVideoState':
-    if len(args) != 0:
-        print('getVideoState requires 0 args')
+    if len(args) != 1:
+        print('getVideoState requires 1 args')
         sys.exit(1)
-    pp.pprint(client.getVideoState())
+    pp.pprint(client.getVideoState(eval(args[0]),))
 
 elif cmd == 'doTakeoff':
     if len(args) != 0:
