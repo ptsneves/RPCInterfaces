@@ -257,7 +257,7 @@ class DroneVideoStateResult(object):
     """
     Attributes:
      - state
-     - human_struct
+     - human_message
      - rtp_url
      - serial
      - timestamp
@@ -265,9 +265,9 @@ class DroneVideoStateResult(object):
     """
 
 
-    def __init__(self, state=None, human_struct=None, rtp_url=None, serial=None, timestamp=None,):
+    def __init__(self, state=None, human_message=None, rtp_url=None, serial=None, timestamp=None,):
         self.state = state
-        self.human_struct = human_struct
+        self.human_message = human_message
         self.rtp_url = rtp_url
         self.serial = serial
         self.timestamp = timestamp
@@ -288,7 +288,7 @@ class DroneVideoStateResult(object):
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRING:
-                    self.human_struct = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.human_message = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
@@ -320,9 +320,9 @@ class DroneVideoStateResult(object):
             oprot.writeFieldBegin('state', TType.I32, 1)
             oprot.writeI32(self.state)
             oprot.writeFieldEnd()
-        if self.human_struct is not None:
-            oprot.writeFieldBegin('human_struct', TType.STRING, 2)
-            oprot.writeString(self.human_struct.encode('utf-8') if sys.version_info[0] == 2 else self.human_struct)
+        if self.human_message is not None:
+            oprot.writeFieldBegin('human_message', TType.STRING, 2)
+            oprot.writeString(self.human_message.encode('utf-8') if sys.version_info[0] == 2 else self.human_message)
             oprot.writeFieldEnd()
         if self.rtp_url is not None:
             oprot.writeFieldBegin('rtp_url', TType.STRING, 3)
@@ -1065,7 +1065,7 @@ all_structs.append(DroneVideoStateResult)
 DroneVideoStateResult.thrift_spec = (
     None,  # 0
     (1, TType.I32, 'state', None, None, ),  # 1
-    (2, TType.STRING, 'human_struct', 'UTF8', None, ),  # 2
+    (2, TType.STRING, 'human_message', 'UTF8', None, ),  # 2
     (3, TType.STRING, 'rtp_url', 'UTF8', None, ),  # 3
     (4, TType.STRING, 'serial', 'UTF8', None, ),  # 4
     (5, TType.I64, 'timestamp', None, None, ),  # 5

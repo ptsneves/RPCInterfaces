@@ -27,7 +27,7 @@ using Thrift.Processor;
 public partial class DroneVideoStateResult : TBase
 {
   private DroneVideoState _state;
-  private string _human_struct;
+  private string _human_message;
   private string _rtp_url;
   private string _serial;
   private long _timestamp;
@@ -49,16 +49,16 @@ public partial class DroneVideoStateResult : TBase
     }
   }
 
-  public string HumanStruct
+  public string HumanMessage
   {
     get
     {
-      return _human_struct;
+      return _human_message;
     }
     set
     {
-      __isset.human_struct = true;
-      this._human_struct = value;
+      __isset.human_message = true;
+      this._human_message = value;
     }
   }
 
@@ -106,7 +106,7 @@ public partial class DroneVideoStateResult : TBase
   public struct Isset
   {
     public bool state;
-    public bool human_struct;
+    public bool human_message;
     public bool rtp_url;
     public bool serial;
     public bool timestamp;
@@ -146,7 +146,7 @@ public partial class DroneVideoStateResult : TBase
           case 2:
             if (field.Type == TType.String)
             {
-              HumanStruct = await iprot.ReadStringAsync(cancellationToken);
+              HumanMessage = await iprot.ReadStringAsync(cancellationToken);
             }
             else
             {
@@ -216,13 +216,13 @@ public partial class DroneVideoStateResult : TBase
         await oprot.WriteI32Async((int)State, cancellationToken);
         await oprot.WriteFieldEndAsync(cancellationToken);
       }
-      if (HumanStruct != null && __isset.human_struct)
+      if (HumanMessage != null && __isset.human_message)
       {
-        field.Name = "human_struct";
+        field.Name = "human_message";
         field.Type = TType.String;
         field.ID = 2;
         await oprot.WriteFieldBeginAsync(field, cancellationToken);
-        await oprot.WriteStringAsync(HumanStruct, cancellationToken);
+        await oprot.WriteStringAsync(HumanMessage, cancellationToken);
         await oprot.WriteFieldEndAsync(cancellationToken);
       }
       if (RtpUrl != null && __isset.rtp_url)
@@ -267,7 +267,7 @@ public partial class DroneVideoStateResult : TBase
     if (other == null) return false;
     if (ReferenceEquals(this, other)) return true;
     return ((__isset.state == other.__isset.state) && ((!__isset.state) || (System.Object.Equals(State, other.State))))
-      && ((__isset.human_struct == other.__isset.human_struct) && ((!__isset.human_struct) || (System.Object.Equals(HumanStruct, other.HumanStruct))))
+      && ((__isset.human_message == other.__isset.human_message) && ((!__isset.human_message) || (System.Object.Equals(HumanMessage, other.HumanMessage))))
       && ((__isset.rtp_url == other.__isset.rtp_url) && ((!__isset.rtp_url) || (System.Object.Equals(RtpUrl, other.RtpUrl))))
       && ((__isset.serial == other.__isset.serial) && ((!__isset.serial) || (System.Object.Equals(Serial, other.Serial))))
       && ((__isset.timestamp == other.__isset.timestamp) && ((!__isset.timestamp) || (System.Object.Equals(Timestamp, other.Timestamp))));
@@ -278,8 +278,8 @@ public partial class DroneVideoStateResult : TBase
     unchecked {
       if(__isset.state)
         hashcode = (hashcode * 397) + State.GetHashCode();
-      if(__isset.human_struct)
-        hashcode = (hashcode * 397) + HumanStruct.GetHashCode();
+      if(__isset.human_message)
+        hashcode = (hashcode * 397) + HumanMessage.GetHashCode();
       if(__isset.rtp_url)
         hashcode = (hashcode * 397) + RtpUrl.GetHashCode();
       if(__isset.serial)
@@ -301,12 +301,12 @@ public partial class DroneVideoStateResult : TBase
       sb.Append("State: ");
       sb.Append(State);
     }
-    if (HumanStruct != null && __isset.human_struct)
+    if (HumanMessage != null && __isset.human_message)
     {
       if(!__first) { sb.Append(", "); }
       __first = false;
-      sb.Append("HumanStruct: ");
-      sb.Append(HumanStruct);
+      sb.Append("HumanMessage: ");
+      sb.Append(HumanMessage);
     }
     if (RtpUrl != null && __isset.rtp_url)
     {

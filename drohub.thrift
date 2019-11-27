@@ -44,7 +44,7 @@ enum DroneVideoState {
 
 struct DroneVideoStateResult {
   1: DroneVideoState state;
-  2: optional string human_struct;
+  2: optional string human_message;
   3: string rtp_url;
   4: string serial;
   5: i64 timestamp;
