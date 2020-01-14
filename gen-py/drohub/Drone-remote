@@ -36,6 +36,8 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  DroneRadioSignal getRadioSignal()')
     print('  DroneReply moveToPosition(DroneRequestPosition request)')
     print('  DroneFileList getFileList()')
+    print('  DroneReply takePicture(DroneTakePictureRequest request)')
+    print('  DroneReply recordVideo(DroneRecordVideoRequest request)')
     print('')
     sys.exit(0)
 
@@ -186,6 +188,18 @@ elif cmd == 'getFileList':
         print('getFileList requires 0 args')
         sys.exit(1)
     pp.pprint(client.getFileList())
+
+elif cmd == 'takePicture':
+    if len(args) != 1:
+        print('takePicture requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.takePicture(eval(args[0]),))
+
+elif cmd == 'recordVideo':
+    if len(args) != 1:
+        print('recordVideo requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.recordVideo(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)

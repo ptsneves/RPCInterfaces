@@ -11,12 +11,27 @@ service Drone {
     DroneRadioSignal getRadioSignal(),
     DroneReply moveToPosition(1: DroneRequestPosition request),
     DroneFileList getFileList(),
+    DroneReply takePicture(1: DroneTakePictureRequest request),
+    DroneReply recordVideo(1: DroneRecordVideoRequest request)
 }
 
 enum FileResourceType {
     VIDEO = 0,
     IMAGE = 1,
     OTHER = 2,
+}
+
+enum ActionType {
+    START = 0,
+    STOP = 1
+}
+
+struct DroneTakePictureRequest {
+    1: ActionType action_type;
+}
+
+struct DroneRecordVideoRequest {
+    1: ActionType action_type;
 }
 
 struct FileEntry {
