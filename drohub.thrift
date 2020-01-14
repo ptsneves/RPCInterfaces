@@ -1,3 +1,5 @@
+namespace java com.drohub.thift.gen
+
 service Drone {
     DroneReply pingService(),
     DroneVideoStateResult sendVideoTo(1: DroneSendVideoRequest request),
