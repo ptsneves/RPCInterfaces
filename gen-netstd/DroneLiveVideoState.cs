@@ -5,7 +5,7 @@
  *  @generated
  */
 
-public enum DroneVideoState
+public enum DroneLiveVideoState
 {
   LIVE = 0,
   STOPPED = 1,

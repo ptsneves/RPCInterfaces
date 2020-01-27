@@ -29,9 +29,9 @@ public partial class Drone
   {
     Task<DroneReply> pingServiceAsync(CancellationToken cancellationToken = default(CancellationToken));
 
-    Task<DroneVideoStateResult> sendVideoToAsync(DroneSendVideoRequest request, CancellationToken cancellationToken = default(CancellationToken));
+    Task<DroneLiveVideoStateResult> sendLiveVideoToAsync(DroneSendLiveVideoRequest request, CancellationToken cancellationToken = default(CancellationToken));
 
-    Task<DroneVideoStateResult> getVideoStateAsync(DroneSendVideoRequest request, CancellationToken cancellationToken = default(CancellationToken));
+    Task<DroneLiveVideoStateResult> getLiveVideoStateAsync(DroneSendLiveVideoRequest request, CancellationToken cancellationToken = default(CancellationToken));
 
     Task<DroneReply> doTakeoffAsync(CancellationToken cancellationToken = default(CancellationToken));
 
@@ -94,11 +94,11 @@ public partial class Drone
       throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "pingService failed: unknown result");
     }
 
-    public async Task<DroneVideoStateResult> sendVideoToAsync(DroneSendVideoRequest request, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<DroneLiveVideoStateResult> sendLiveVideoToAsync(DroneSendLiveVideoRequest request, CancellationToken cancellationToken = default(CancellationToken))
     {
-      await OutputProtocol.WriteMessageBeginAsync(new TMessage("sendVideoTo", TMessageType.Call, SeqId), cancellationToken);
+      await OutputProtocol.WriteMessageBeginAsync(new TMessage("sendLiveVideoTo", TMessageType.Call, SeqId), cancellationToken);
       
-      var args = new sendVideoToArgs();
+      var args = new sendLiveVideoToArgs();
       args.Request = request;
       
       await args.WriteAsync(OutputProtocol, cancellationToken);
@@ -113,21 +113,21 @@ public partial class Drone
         throw x;
       }
 
-      var result = new sendVideoToResult();
+      var result = new sendLiveVideoToResult();
       await result.ReadAsync(InputProtocol, cancellationToken);
       await InputProtocol.ReadMessageEndAsync(cancellationToken);
       if (result.__isset.success)
       {
         return result.Success;
       }
-      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "sendVideoTo failed: unknown result");
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "sendLiveVideoTo failed: unknown result");
     }
 
-    public async Task<DroneVideoStateResult> getVideoStateAsync(DroneSendVideoRequest request, CancellationToken cancellationToken = default(CancellationToken))
+    public async Task<DroneLiveVideoStateResult> getLiveVideoStateAsync(DroneSendLiveVideoRequest request, CancellationToken cancellationToken = default(CancellationToken))
     {
-      await OutputProtocol.WriteMessageBeginAsync(new TMessage("getVideoState", TMessageType.Call, SeqId), cancellationToken);
+      await OutputProtocol.WriteMessageBeginAsync(new TMessage("getLiveVideoState", TMessageType.Call, SeqId), cancellationToken);
       
-      var args = new getVideoStateArgs();
+      var args = new getLiveVideoStateArgs();
       args.Request = request;
       
       await args.WriteAsync(OutputProtocol, cancellationToken);
@@ -142,14 +142,14 @@ public partial class Drone
         throw x;
       }
 
-      var result = new getVideoStateResult();
+      var result = new getLiveVideoStateResult();
       await result.ReadAsync(InputProtocol, cancellationToken);
       await InputProtocol.ReadMessageEndAsync(cancellationToken);
       if (result.__isset.success)
       {
         return result.Success;
       }
-      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "getVideoState failed: unknown result");
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "getLiveVideoState failed: unknown result");
     }
 
     public async Task<DroneReply> doTakeoffAsync(CancellationToken cancellationToken = default(CancellationToken))
@@ -475,8 +475,8 @@ public partial class Drone
 
       _iAsync = iAsync;
       processMap_["pingService"] = pingService_ProcessAsync;
-      processMap_["sendVideoTo"] = sendVideoTo_ProcessAsync;
-      processMap_["getVideoState"] = getVideoState_ProcessAsync;
+      processMap_["sendLiveVideoTo"] = sendLiveVideoTo_ProcessAsync;
+      processMap_["getLiveVideoState"] = getLiveVideoState_ProcessAsync;
       processMap_["doTakeoff"] = doTakeoff_ProcessAsync;
       processMap_["doLanding"] = doLanding_ProcessAsync;
       processMap_["doReturnToHome"] = doReturnToHome_ProcessAsync;
@@ -558,16 +558,16 @@ public partial class Drone
       await oprot.Transport.FlushAsync(cancellationToken);
     }
 
-    public async Task sendVideoTo_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
+    public async Task sendLiveVideoTo_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
     {
-      var args = new sendVideoToArgs();
+      var args = new sendLiveVideoToArgs();
       await args.ReadAsync(iprot, cancellationToken);
       await iprot.ReadMessageEndAsync(cancellationToken);
-      var result = new sendVideoToResult();
+      var result = new sendLiveVideoToResult();
       try
       {
-        result.Success = await _iAsync.sendVideoToAsync(args.Request, cancellationToken);
-        await oprot.WriteMessageBeginAsync(new TMessage("sendVideoTo", TMessageType.Reply, seqid), cancellationToken); 
+        result.Success = await _iAsync.sendLiveVideoToAsync(args.Request, cancellationToken);
+        await oprot.WriteMessageBeginAsync(new TMessage("sendLiveVideoTo", TMessageType.Reply, seqid), cancellationToken); 
         await result.WriteAsync(oprot, cancellationToken);
       }
       catch (TTransportException)
@@ -579,23 +579,23 @@ public partial class Drone
         Console.Error.WriteLine("Error occurred in processor:");
         Console.Error.WriteLine(ex.ToString());
         var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
-        await oprot.WriteMessageBeginAsync(new TMessage("sendVideoTo", TMessageType.Exception, seqid), cancellationToken);
+        await oprot.WriteMessageBeginAsync(new TMessage("sendLiveVideoTo", TMessageType.Exception, seqid), cancellationToken);
         await x.WriteAsync(oprot, cancellationToken);
       }
       await oprot.WriteMessageEndAsync(cancellationToken);
       await oprot.Transport.FlushAsync(cancellationToken);
     }
 
-    public async Task getVideoState_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
+    public async Task getLiveVideoState_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
     {
-      var args = new getVideoStateArgs();
+      var args = new getLiveVideoStateArgs();
       await args.ReadAsync(iprot, cancellationToken);
       await iprot.ReadMessageEndAsync(cancellationToken);
-      var result = new getVideoStateResult();
+      var result = new getLiveVideoStateResult();
       try
       {
-        result.Success = await _iAsync.getVideoStateAsync(args.Request, cancellationToken);
-        await oprot.WriteMessageBeginAsync(new TMessage("getVideoState", TMessageType.Reply, seqid), cancellationToken); 
+        result.Success = await _iAsync.getLiveVideoStateAsync(args.Request, cancellationToken);
+        await oprot.WriteMessageBeginAsync(new TMessage("getLiveVideoState", TMessageType.Reply, seqid), cancellationToken); 
         await result.WriteAsync(oprot, cancellationToken);
       }
       catch (TTransportException)
@@ -607,7 +607,7 @@ public partial class Drone
         Console.Error.WriteLine("Error occurred in processor:");
         Console.Error.WriteLine(ex.ToString());
         var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
-        await oprot.WriteMessageBeginAsync(new TMessage("getVideoState", TMessageType.Exception, seqid), cancellationToken);
+        await oprot.WriteMessageBeginAsync(new TMessage("getLiveVideoState", TMessageType.Exception, seqid), cancellationToken);
         await x.WriteAsync(oprot, cancellationToken);
       }
       await oprot.WriteMessageEndAsync(cancellationToken);
@@ -1141,11 +1141,11 @@ public partial class Drone
   }
 
 
-  public partial class sendVideoToArgs : TBase
+  public partial class sendLiveVideoToArgs : TBase
   {
-    private DroneSendVideoRequest _request;
+    private DroneSendLiveVideoRequest _request;
 
-    public DroneSendVideoRequest Request
+    public DroneSendLiveVideoRequest Request
     {
       get
       {
@@ -1165,7 +1165,7 @@ public partial class Drone
       public bool request;
     }
 
-    public sendVideoToArgs()
+    public sendLiveVideoToArgs()
     {
     }
 
@@ -1189,7 +1189,7 @@ public partial class Drone
             case 1:
               if (field.Type == TType.Struct)
               {
-                Request = new DroneSendVideoRequest();
+                Request = new DroneSendLiveVideoRequest();
                 await Request.ReadAsync(iprot, cancellationToken);
               }
               else
@@ -1218,7 +1218,7 @@ public partial class Drone
       oprot.IncrementRecursionDepth();
       try
       {
-        var struc = new TStruct("sendVideoTo_args");
+        var struc = new TStruct("sendLiveVideoTo_args");
         await oprot.WriteStructBeginAsync(struc, cancellationToken);
         var field = new TField();
         if (Request != null && __isset.request)
@@ -1241,7 +1241,7 @@ public partial class Drone
 
     public override bool Equals(object that)
     {
-      var other = that as sendVideoToArgs;
+      var other = that as sendLiveVideoToArgs;
       if (other == null) return false;
       if (ReferenceEquals(this, other)) return true;
       return ((__isset.request == other.__isset.request) && ((!__isset.request) || (System.Object.Equals(Request, other.Request))));
@@ -1258,7 +1258,7 @@ public partial class Drone
 
     public override string ToString()
     {
-      var sb = new StringBuilder("sendVideoTo_args(");
+      var sb = new StringBuilder("sendLiveVideoTo_args(");
       bool __first = true;
       if (Request != null && __isset.request)
       {
@@ -1273,11 +1273,11 @@ public partial class Drone
   }
 
 
-  public partial class sendVideoToResult : TBase
+  public partial class sendLiveVideoToResult : TBase
   {
-    private DroneVideoStateResult _success;
+    private DroneLiveVideoStateResult _success;
 
-    public DroneVideoStateResult Success
+    public DroneLiveVideoStateResult Success
     {
       get
       {
@@ -1297,7 +1297,7 @@ public partial class Drone
       public bool success;
     }
 
-    public sendVideoToResult()
+    public sendLiveVideoToResult()
     {
     }
 
@@ -1321,7 +1321,7 @@ public partial class Drone
             case 0:
               if (field.Type == TType.Struct)
               {
-                Success = new DroneVideoStateResult();
+                Success = new DroneLiveVideoStateResult();
                 await Success.ReadAsync(iprot, cancellationToken);
               }
               else
@@ -1350,7 +1350,7 @@ public partial class Drone
       oprot.IncrementRecursionDepth();
       try
       {
-        var struc = new TStruct("sendVideoTo_result");
+        var struc = new TStruct("sendLiveVideoTo_result");
         await oprot.WriteStructBeginAsync(struc, cancellationToken);
         var field = new TField();
 
@@ -1377,7 +1377,7 @@ public partial class Drone
 
     public override bool Equals(object that)
     {
-      var other = that as sendVideoToResult;
+      var other = that as sendLiveVideoToResult;
       if (other == null) return false;
       if (ReferenceEquals(this, other)) return true;
       return ((__isset.success == other.__isset.success) && ((!__isset.success) || (System.Object.Equals(Success, other.Success))));
@@ -1394,7 +1394,7 @@ public partial class Drone
 
     public override string ToString()
     {
-      var sb = new StringBuilder("sendVideoTo_result(");
+      var sb = new StringBuilder("sendLiveVideoTo_result(");
       bool __first = true;
       if (Success != null && __isset.success)
       {
@@ -1409,11 +1409,11 @@ public partial class Drone
   }
 
 
-  public partial class getVideoStateArgs : TBase
+  public partial class getLiveVideoStateArgs : TBase
   {
-    private DroneSendVideoRequest _request;
+    private DroneSendLiveVideoRequest _request;
 
-    public DroneSendVideoRequest Request
+    public DroneSendLiveVideoRequest Request
     {
       get
       {
@@ -1433,7 +1433,7 @@ public partial class Drone
       public bool request;
     }
 
-    public getVideoStateArgs()
+    public getLiveVideoStateArgs()
     {
     }
 
@@ -1457,7 +1457,7 @@ public partial class Drone
             case 1:
               if (field.Type == TType.Struct)
               {
-                Request = new DroneSendVideoRequest();
+                Request = new DroneSendLiveVideoRequest();
                 await Request.ReadAsync(iprot, cancellationToken);
               }
               else
@@ -1486,7 +1486,7 @@ public partial class Drone
       oprot.IncrementRecursionDepth();
       try
       {
-        var struc = new TStruct("getVideoState_args");
+        var struc = new TStruct("getLiveVideoState_args");
         await oprot.WriteStructBeginAsync(struc, cancellationToken);
         var field = new TField();
         if (Request != null && __isset.request)
@@ -1509,7 +1509,7 @@ public partial class Drone
 
     public override bool Equals(object that)
     {
-      var other = that as getVideoStateArgs;
+      var other = that as getLiveVideoStateArgs;
       if (other == null) return false;
       if (ReferenceEquals(this, other)) return true;
       return ((__isset.request == other.__isset.request) && ((!__isset.request) || (System.Object.Equals(Request, other.Request))));
@@ -1526,7 +1526,7 @@ public partial class Drone
 
     public override string ToString()
     {
-      var sb = new StringBuilder("getVideoState_args(");
+      var sb = new StringBuilder("getLiveVideoState_args(");
       bool __first = true;
       if (Request != null && __isset.request)
       {
@@ -1541,11 +1541,11 @@ public partial class Drone
   }
 
 
-  public partial class getVideoStateResult : TBase
+  public partial class getLiveVideoStateResult : TBase
   {
-    private DroneVideoStateResult _success;
+    private DroneLiveVideoStateResult _success;
 
-    public DroneVideoStateResult Success
+    public DroneLiveVideoStateResult Success
     {
       get
       {
@@ -1565,7 +1565,7 @@ public partial class Drone
       public bool success;
     }
 
-    public getVideoStateResult()
+    public getLiveVideoStateResult()
     {
     }
 
@@ -1589,7 +1589,7 @@ public partial class Drone
             case 0:
               if (field.Type == TType.Struct)
               {
-                Success = new DroneVideoStateResult();
+                Success = new DroneLiveVideoStateResult();
                 await Success.ReadAsync(iprot, cancellationToken);
               }
               else
@@ -1618,7 +1618,7 @@ public partial class Drone
       oprot.IncrementRecursionDepth();
       try
       {
-        var struc = new TStruct("getVideoState_result");
+        var struc = new TStruct("getLiveVideoState_result");
         await oprot.WriteStructBeginAsync(struc, cancellationToken);
         var field = new TField();
 
@@ -1645,7 +1645,7 @@ public partial class Drone
 
     public override bool Equals(object that)
     {
-      var other = that as getVideoStateResult;
+      var other = that as getLiveVideoStateResult;
       if (other == null) return false;
       if (ReferenceEquals(this, other)) return true;
       return ((__isset.success == other.__isset.success) && ((!__isset.success) || (System.Object.Equals(Success, other.Success))));
@@ -1662,7 +1662,7 @@ public partial class Drone
 
     public override string ToString()
     {
-      var sb = new StringBuilder("getVideoState_result(");
+      var sb = new StringBuilder("getLiveVideoState_result(");
       bool __first = true;
       if (Success != null && __isset.success)
       {

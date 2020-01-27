@@ -24,38 +24,34 @@ using Thrift.Processor;
 
 
 
-public partial class DroneSendVideoRequest : TBase
+public partial class DroneSendLiveVideoRequest : TBase
 {
-  private string _rtp_url;
-  private VideoType _video_type;
+  private string _room_secret;
+  private long _room_id;
 
-  public string RtpUrl
+  public string RoomSecret
   {
     get
     {
-      return _rtp_url;
+      return _room_secret;
     }
     set
     {
-      __isset.rtp_url = true;
-      this._rtp_url = value;
+      __isset.room_secret = true;
+      this._room_secret = value;
     }
   }
 
-  /// <summary>
-  /// 
-  /// <seealso cref="VideoType"/>
-  /// </summary>
-  public VideoType VideoType
+  public long RoomId
   {
     get
     {
-      return _video_type;
+      return _room_id;
     }
     set
     {
-      __isset.video_type = true;
-      this._video_type = value;
+      __isset.room_id = true;
+      this._room_id = value;
     }
   }
 
@@ -63,11 +59,11 @@ public partial class DroneSendVideoRequest : TBase
   public Isset __isset;
   public struct Isset
   {
-    public bool rtp_url;
-    public bool video_type;
+    public bool room_secret;
+    public bool room_id;
   }
 
-  public DroneSendVideoRequest()
+  public DroneSendLiveVideoRequest()
   {
   }
 
@@ -91,7 +87,7 @@ public partial class DroneSendVideoRequest : TBase
           case 1:
             if (field.Type == TType.String)
             {
-              RtpUrl = await iprot.ReadStringAsync(cancellationToken);
+              RoomSecret = await iprot.ReadStringAsync(cancellationToken);
             }
             else
             {
@@ -99,9 +95,9 @@ public partial class DroneSendVideoRequest : TBase
             }
             break;
           case 2:
-            if (field.Type == TType.I32)
+            if (field.Type == TType.I64)
             {
-              VideoType = (VideoType)await iprot.ReadI32Async(cancellationToken);
+              RoomId = await iprot.ReadI64Async(cancellationToken);
             }
             else
             {
@@ -129,25 +125,25 @@ public partial class DroneSendVideoRequest : TBase
     oprot.IncrementRecursionDepth();
     try
     {
-      var struc = new TStruct("DroneSendVideoRequest");
+      var struc = new TStruct("DroneSendLiveVideoRequest");
       await oprot.WriteStructBeginAsync(struc, cancellationToken);
       var field = new TField();
-      if (RtpUrl != null && __isset.rtp_url)
+      if (RoomSecret != null && __isset.room_secret)
       {
-        field.Name = "rtp_url";
+        field.Name = "room_secret";
         field.Type = TType.String;
         field.ID = 1;
         await oprot.WriteFieldBeginAsync(field, cancellationToken);
-        await oprot.WriteStringAsync(RtpUrl, cancellationToken);
+        await oprot.WriteStringAsync(RoomSecret, cancellationToken);
         await oprot.WriteFieldEndAsync(cancellationToken);
       }
-      if (__isset.video_type)
+      if (__isset.room_id)
       {
-        field.Name = "video_type";
-        field.Type = TType.I32;
+        field.Name = "room_id";
+        field.Type = TType.I64;
         field.ID = 2;
         await oprot.WriteFieldBeginAsync(field, cancellationToken);
-        await oprot.WriteI32Async((int)VideoType, cancellationToken);
+        await oprot.WriteI64Async(RoomId, cancellationToken);
         await oprot.WriteFieldEndAsync(cancellationToken);
       }
       await oprot.WriteFieldStopAsync(cancellationToken);
@@ -161,41 +157,41 @@ public partial class DroneSendVideoRequest : TBase
 
   public override bool Equals(object that)
   {
-    var other = that as DroneSendVideoRequest;
+    var other = that as DroneSendLiveVideoRequest;
     if (other == null) return false;
     if (ReferenceEquals(this, other)) return true;
-    return ((__isset.rtp_url == other.__isset.rtp_url) && ((!__isset.rtp_url) || (System.Object.Equals(RtpUrl, other.RtpUrl))))
-      && ((__isset.video_type == other.__isset.video_type) && ((!__isset.video_type) || (System.Object.Equals(VideoType, other.VideoType))));
+    return ((__isset.room_secret == other.__isset.room_secret) && ((!__isset.room_secret) || (System.Object.Equals(RoomSecret, other.RoomSecret))))
+      && ((__isset.room_id == other.__isset.room_id) && ((!__isset.room_id) || (System.Object.Equals(RoomId, other.RoomId))));
   }
 
   public override int GetHashCode() {
     int hashcode = 157;
     unchecked {
-      if(__isset.rtp_url)
-        hashcode = (hashcode * 397) + RtpUrl.GetHashCode();
-      if(__isset.video_type)
-        hashcode = (hashcode * 397) + VideoType.GetHashCode();
+      if(__isset.room_secret)
+        hashcode = (hashcode * 397) + RoomSecret.GetHashCode();
+      if(__isset.room_id)
+        hashcode = (hashcode * 397) + RoomId.GetHashCode();
     }
     return hashcode;
   }
 
   public override string ToString()
   {
-    var sb = new StringBuilder("DroneSendVideoRequest(");
+    var sb = new StringBuilder("DroneSendLiveVideoRequest(");
     bool __first = true;
-    if (RtpUrl != null && __isset.rtp_url)
+    if (RoomSecret != null && __isset.room_secret)
     {
       if(!__first) { sb.Append(", "); }
       __first = false;
-      sb.Append("RtpUrl: ");
-      sb.Append(RtpUrl);
+      sb.Append("RoomSecret: ");
+      sb.Append(RoomSecret);
     }
-    if (__isset.video_type)
+    if (__isset.room_id)
     {
       if(!__first) { sb.Append(", "); }
       __first = false;
-      sb.Append("VideoType: ");
-      sb.Append(VideoType);
+      sb.Append("RoomId: ");
+      sb.Append(RoomId);
     }
     sb.Append(")");
     return sb.ToString();

@@ -2,8 +2,8 @@ namespace java com.drohub.thift.gen
 
 service Drone {
     DroneReply pingService(),
-    DroneVideoStateResult sendVideoTo(1: DroneSendVideoRequest request),
-    DroneVideoStateResult getVideoState(1: DroneSendVideoRequest request),
+    DroneLiveVideoStateResult sendLiveVideoTo(1: DroneSendLiveVideoRequest request),
+    DroneLiveVideoStateResult getLiveVideoState(1: DroneSendLiveVideoRequest request),
     DroneReply doTakeoff(),
     DroneReply doLanding(),
     DroneReply doReturnToHome(),
@@ -42,27 +42,20 @@ struct FileEntry {
     3: FileResourceType resource_type;
 }
 
-enum VideoType {
-    VP8 = 0,
-    H264 = 1
+struct DroneSendLiveVideoRequest {
+    1: string room_secret;
+    2: i64 room_id;
 }
 
-struct DroneSendVideoRequest {
-    1: string rtp_url;
-    2: VideoType video_type;
-}
-
-enum DroneVideoState {
+enum DroneLiveVideoState {
     LIVE = 0,
     STOPPED = 1,
     DIED = 2,
     INVALID_CONDITION = 3
 }
 
-struct DroneVideoStateResult {
-  1: DroneVideoState state;
-  2: optional string human_message;
-  3: string rtp_url;
+struct DroneLiveVideoStateResult {
+  1: DroneLiveVideoState state;
   4: string serial;
   5: i64 timestamp;
 }

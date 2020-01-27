@@ -24,19 +24,17 @@ using Thrift.Processor;
 
 
 
-public partial class DroneVideoStateResult : TBase
+public partial class DroneLiveVideoStateResult : TBase
 {
-  private DroneVideoState _state;
-  private string _human_message;
-  private string _rtp_url;
+  private DroneLiveVideoState _state;
   private string _serial;
   private long _timestamp;
 
   /// <summary>
   /// 
-  /// <seealso cref="DroneVideoState"/>
+  /// <seealso cref="DroneLiveVideoState"/>
   /// </summary>
-  public DroneVideoState State
+  public DroneLiveVideoState State
   {
     get
     {
@@ -46,32 +44,6 @@ public partial class DroneVideoStateResult : TBase
     {
       __isset.state = true;
       this._state = value;
-    }
-  }
-
-  public string HumanMessage
-  {
-    get
-    {
-      return _human_message;
-    }
-    set
-    {
-      __isset.human_message = true;
-      this._human_message = value;
-    }
-  }
-
-  public string RtpUrl
-  {
-    get
-    {
-      return _rtp_url;
-    }
-    set
-    {
-      __isset.rtp_url = true;
-      this._rtp_url = value;
     }
   }
 
@@ -106,13 +78,11 @@ public partial class DroneVideoStateResult : TBase
   public struct Isset
   {
     public bool state;
-    public bool human_message;
-    public bool rtp_url;
     public bool serial;
     public bool timestamp;
   }
 
-  public DroneVideoStateResult()
+  public DroneLiveVideoStateResult()
   {
   }
 
@@ -136,27 +106,7 @@ public partial class DroneVideoStateResult : TBase
           case 1:
             if (field.Type == TType.I32)
             {
-              State = (DroneVideoState)await iprot.ReadI32Async(cancellationToken);
-            }
-            else
-            {
-              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
-            }
-            break;
-          case 2:
-            if (field.Type == TType.String)
-            {
-              HumanMessage = await iprot.ReadStringAsync(cancellationToken);
-            }
-            else
-            {
-              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
-            }
-            break;
-          case 3:
-            if (field.Type == TType.String)
-            {
-              RtpUrl = await iprot.ReadStringAsync(cancellationToken);
+              State = (DroneLiveVideoState)await iprot.ReadI32Async(cancellationToken);
             }
             else
             {
@@ -204,7 +154,7 @@ public partial class DroneVideoStateResult : TBase
     oprot.IncrementRecursionDepth();
     try
     {
-      var struc = new TStruct("DroneVideoStateResult");
+      var struc = new TStruct("DroneLiveVideoStateResult");
       await oprot.WriteStructBeginAsync(struc, cancellationToken);
       var field = new TField();
       if (__isset.state)
@@ -214,24 +164,6 @@ public partial class DroneVideoStateResult : TBase
         field.ID = 1;
         await oprot.WriteFieldBeginAsync(field, cancellationToken);
         await oprot.WriteI32Async((int)State, cancellationToken);
-        await oprot.WriteFieldEndAsync(cancellationToken);
-      }
-      if (HumanMessage != null && __isset.human_message)
-      {
-        field.Name = "human_message";
-        field.Type = TType.String;
-        field.ID = 2;
-        await oprot.WriteFieldBeginAsync(field, cancellationToken);
-        await oprot.WriteStringAsync(HumanMessage, cancellationToken);
-        await oprot.WriteFieldEndAsync(cancellationToken);
-      }
-      if (RtpUrl != null && __isset.rtp_url)
-      {
-        field.Name = "rtp_url";
-        field.Type = TType.String;
-        field.ID = 3;
-        await oprot.WriteFieldBeginAsync(field, cancellationToken);
-        await oprot.WriteStringAsync(RtpUrl, cancellationToken);
         await oprot.WriteFieldEndAsync(cancellationToken);
       }
       if (Serial != null && __isset.serial)
@@ -263,12 +195,10 @@ public partial class DroneVideoStateResult : TBase
 
   public override bool Equals(object that)
   {
-    var other = that as DroneVideoStateResult;
+    var other = that as DroneLiveVideoStateResult;
     if (other == null) return false;
     if (ReferenceEquals(this, other)) return true;
     return ((__isset.state == other.__isset.state) && ((!__isset.state) || (System.Object.Equals(State, other.State))))
-      && ((__isset.human_message == other.__isset.human_message) && ((!__isset.human_message) || (System.Object.Equals(HumanMessage, other.HumanMessage))))
-      && ((__isset.rtp_url == other.__isset.rtp_url) && ((!__isset.rtp_url) || (System.Object.Equals(RtpUrl, other.RtpUrl))))
       && ((__isset.serial == other.__isset.serial) && ((!__isset.serial) || (System.Object.Equals(Serial, other.Serial))))
       && ((__isset.timestamp == other.__isset.timestamp) && ((!__isset.timestamp) || (System.Object.Equals(Timestamp, other.Timestamp))));
   }
@@ -278,10 +208,6 @@ public partial class DroneVideoStateResult : TBase
     unchecked {
       if(__isset.state)
         hashcode = (hashcode * 397) + State.GetHashCode();
-      if(__isset.human_message)
-        hashcode = (hashcode * 397) + HumanMessage.GetHashCode();
-      if(__isset.rtp_url)
-        hashcode = (hashcode * 397) + RtpUrl.GetHashCode();
       if(__isset.serial)
         hashcode = (hashcode * 397) + Serial.GetHashCode();
       if(__isset.timestamp)
@@ -292,7 +218,7 @@ public partial class DroneVideoStateResult : TBase
 
   public override string ToString()
   {
-    var sb = new StringBuilder("DroneVideoStateResult(");
+    var sb = new StringBuilder("DroneLiveVideoStateResult(");
     bool __first = true;
     if (__isset.state)
     {
@@ -300,20 +226,6 @@ public partial class DroneVideoStateResult : TBase
       __first = false;
       sb.Append("State: ");
       sb.Append(State);
-    }
-    if (HumanMessage != null && __isset.human_message)
-    {
-      if(!__first) { sb.Append(", "); }
-      __first = false;
-      sb.Append("HumanMessage: ");
-      sb.Append(HumanMessage);
-    }
-    if (RtpUrl != null && __isset.rtp_url)
-    {
-      if(!__first) { sb.Append(", "); }
-      __first = false;
-      sb.Append("RtpUrl: ");
-      sb.Append(RtpUrl);
     }
     if (Serial != null && __isset.serial)
     {
