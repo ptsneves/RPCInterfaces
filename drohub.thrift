@@ -14,7 +14,25 @@ service Drone {
     DroneReply moveToPosition(1: DroneRequestPosition request),
     DroneFileList getFileList(),
     DroneReply takePicture(1: DroneTakePictureRequest request),
-    DroneReply recordVideo(1: DroneRecordVideoRequest request)
+    DroneReply recordVideo(1: DroneRecordVideoRequest request),
+    DroneReply setCameraZoom(1: double zoom_level),
+    CameraState getCameraState(),
+}
+
+struct CameraState {
+    1: CameraMode mode;
+    2: double zoom_level;
+    3: double min_zoom;
+    4: double max_zoom;
+    5: string serial;
+    6: i64 timestamp;
+}
+
+enum CameraMode {
+    VIDEO,
+    PICTURE,
+    THERMAL,
+    ERROR,
 }
 
 enum FileResourceType {
