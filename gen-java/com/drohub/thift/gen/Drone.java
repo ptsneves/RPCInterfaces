@@ -42,7 +42,11 @@ public class Drone {
 
     public DroneReply setCameraZoom(double zoom_level) throws org.apache.thrift.TException;
 
+    public DroneReply setGimbalAttitude(double pitch, double roll, double yaw) throws org.apache.thrift.TException;
+
     public CameraState getCameraState() throws org.apache.thrift.TException;
+
+    public GimbalState getGimbalState() throws org.apache.thrift.TException;
 
   }
 
@@ -78,7 +82,11 @@ public class Drone {
 
     public void setCameraZoom(double zoom_level, org.apache.thrift.async.AsyncMethodCallback<DroneReply> resultHandler) throws org.apache.thrift.TException;
 
+    public void setGimbalAttitude(double pitch, double roll, double yaw, org.apache.thrift.async.AsyncMethodCallback<DroneReply> resultHandler) throws org.apache.thrift.TException;
+
     public void getCameraState(org.apache.thrift.async.AsyncMethodCallback<CameraState> resultHandler) throws org.apache.thrift.TException;
+
+    public void getGimbalState(org.apache.thrift.async.AsyncMethodCallback<GimbalState> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -438,6 +446,31 @@ public class Drone {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "setCameraZoom failed: unknown result");
     }
 
+    public DroneReply setGimbalAttitude(double pitch, double roll, double yaw) throws org.apache.thrift.TException
+    {
+      send_setGimbalAttitude(pitch, roll, yaw);
+      return recv_setGimbalAttitude();
+    }
+
+    public void send_setGimbalAttitude(double pitch, double roll, double yaw) throws org.apache.thrift.TException
+    {
+      setGimbalAttitude_args args = new setGimbalAttitude_args();
+      args.setPitch(pitch);
+      args.setRoll(roll);
+      args.setYaw(yaw);
+      sendBase("setGimbalAttitude", args);
+    }
+
+    public DroneReply recv_setGimbalAttitude() throws org.apache.thrift.TException
+    {
+      setGimbalAttitude_result result = new setGimbalAttitude_result();
+      receiveBase(result, "setGimbalAttitude");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "setGimbalAttitude failed: unknown result");
+    }
+
     public CameraState getCameraState() throws org.apache.thrift.TException
     {
       send_getCameraState();
@@ -458,6 +491,28 @@ public class Drone {
         return result.success;
       }
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getCameraState failed: unknown result");
+    }
+
+    public GimbalState getGimbalState() throws org.apache.thrift.TException
+    {
+      send_getGimbalState();
+      return recv_getGimbalState();
+    }
+
+    public void send_getGimbalState() throws org.apache.thrift.TException
+    {
+      getGimbalState_args args = new getGimbalState_args();
+      sendBase("getGimbalState", args);
+    }
+
+    public GimbalState recv_getGimbalState() throws org.apache.thrift.TException
+    {
+      getGimbalState_result result = new getGimbalState_result();
+      receiveBase(result, "getGimbalState");
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getGimbalState failed: unknown result");
     }
 
   }
@@ -931,6 +986,44 @@ public class Drone {
       }
     }
 
+    public void setGimbalAttitude(double pitch, double roll, double yaw, org.apache.thrift.async.AsyncMethodCallback<DroneReply> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      setGimbalAttitude_call method_call = new setGimbalAttitude_call(pitch, roll, yaw, resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class setGimbalAttitude_call extends org.apache.thrift.async.TAsyncMethodCall<DroneReply> {
+      private double pitch;
+      private double roll;
+      private double yaw;
+      public setGimbalAttitude_call(double pitch, double roll, double yaw, org.apache.thrift.async.AsyncMethodCallback<DroneReply> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.pitch = pitch;
+        this.roll = roll;
+        this.yaw = yaw;
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setGimbalAttitude", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        setGimbalAttitude_args args = new setGimbalAttitude_args();
+        args.setPitch(pitch);
+        args.setRoll(roll);
+        args.setYaw(yaw);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public DroneReply getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_setGimbalAttitude();
+      }
+    }
+
     public void getCameraState(org.apache.thrift.async.AsyncMethodCallback<CameraState> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getCameraState_call method_call = new getCameraState_call(resultHandler, this, ___protocolFactory, ___transport);
@@ -957,6 +1050,35 @@ public class Drone {
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getCameraState();
+      }
+    }
+
+    public void getGimbalState(org.apache.thrift.async.AsyncMethodCallback<GimbalState> resultHandler) throws org.apache.thrift.TException {
+      checkReady();
+      getGimbalState_call method_call = new getGimbalState_call(resultHandler, this, ___protocolFactory, ___transport);
+      this.___currentMethod = method_call;
+      ___manager.call(method_call);
+    }
+
+    public static class getGimbalState_call extends org.apache.thrift.async.TAsyncMethodCall<GimbalState> {
+      public getGimbalState_call(org.apache.thrift.async.AsyncMethodCallback<GimbalState> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+      }
+
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getGimbalState", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        getGimbalState_args args = new getGimbalState_args();
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public GimbalState getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
+          throw new java.lang.IllegalStateException("Method call not finished!");
+        }
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_getGimbalState();
       }
     }
 
@@ -988,7 +1110,9 @@ public class Drone {
       processMap.put("takePicture", new takePicture());
       processMap.put("recordVideo", new recordVideo());
       processMap.put("setCameraZoom", new setCameraZoom());
+      processMap.put("setGimbalAttitude", new setGimbalAttitude());
       processMap.put("getCameraState", new getCameraState());
+      processMap.put("getGimbalState", new getGimbalState());
       return processMap;
     }
 
@@ -1367,6 +1491,31 @@ public class Drone {
       }
     }
 
+    public static class setGimbalAttitude<I extends Iface> extends org.apache.thrift.ProcessFunction<I, setGimbalAttitude_args> {
+      public setGimbalAttitude() {
+        super("setGimbalAttitude");
+      }
+
+      public setGimbalAttitude_args getEmptyArgsInstance() {
+        return new setGimbalAttitude_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public setGimbalAttitude_result getResult(I iface, setGimbalAttitude_args args) throws org.apache.thrift.TException {
+        setGimbalAttitude_result result = new setGimbalAttitude_result();
+        result.success = iface.setGimbalAttitude(args.pitch, args.roll, args.yaw);
+        return result;
+      }
+    }
+
     public static class getCameraState<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getCameraState_args> {
       public getCameraState() {
         super("getCameraState");
@@ -1388,6 +1537,31 @@ public class Drone {
       public getCameraState_result getResult(I iface, getCameraState_args args) throws org.apache.thrift.TException {
         getCameraState_result result = new getCameraState_result();
         result.success = iface.getCameraState();
+        return result;
+      }
+    }
+
+    public static class getGimbalState<I extends Iface> extends org.apache.thrift.ProcessFunction<I, getGimbalState_args> {
+      public getGimbalState() {
+        super("getGimbalState");
+      }
+
+      public getGimbalState_args getEmptyArgsInstance() {
+        return new getGimbalState_args();
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      @Override
+      protected boolean rethrowUnhandledExceptions() {
+        return false;
+      }
+
+      public getGimbalState_result getResult(I iface, getGimbalState_args args) throws org.apache.thrift.TException {
+        getGimbalState_result result = new getGimbalState_result();
+        result.success = iface.getGimbalState();
         return result;
       }
     }
@@ -1420,7 +1594,9 @@ public class Drone {
       processMap.put("takePicture", new takePicture());
       processMap.put("recordVideo", new recordVideo());
       processMap.put("setCameraZoom", new setCameraZoom());
+      processMap.put("setGimbalAttitude", new setGimbalAttitude());
       processMap.put("getCameraState", new getCameraState());
+      processMap.put("getGimbalState", new getGimbalState());
       return processMap;
     }
 
@@ -2339,6 +2515,67 @@ public class Drone {
       }
     }
 
+    public static class setGimbalAttitude<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, setGimbalAttitude_args, DroneReply> {
+      public setGimbalAttitude() {
+        super("setGimbalAttitude");
+      }
+
+      public setGimbalAttitude_args getEmptyArgsInstance() {
+        return new setGimbalAttitude_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<DroneReply> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<DroneReply>() { 
+          public void onComplete(DroneReply o) {
+            setGimbalAttitude_result result = new setGimbalAttitude_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            setGimbalAttitude_result result = new setGimbalAttitude_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, setGimbalAttitude_args args, org.apache.thrift.async.AsyncMethodCallback<DroneReply> resultHandler) throws org.apache.thrift.TException {
+        iface.setGimbalAttitude(args.pitch, args.roll, args.yaw,resultHandler);
+      }
+    }
+
     public static class getCameraState<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getCameraState_args, CameraState> {
       public getCameraState() {
         super("getCameraState");
@@ -2397,6 +2634,67 @@ public class Drone {
 
       public void start(I iface, getCameraState_args args, org.apache.thrift.async.AsyncMethodCallback<CameraState> resultHandler) throws org.apache.thrift.TException {
         iface.getCameraState(resultHandler);
+      }
+    }
+
+    public static class getGimbalState<I extends AsyncIface> extends org.apache.thrift.AsyncProcessFunction<I, getGimbalState_args, GimbalState> {
+      public getGimbalState() {
+        super("getGimbalState");
+      }
+
+      public getGimbalState_args getEmptyArgsInstance() {
+        return new getGimbalState_args();
+      }
+
+      public org.apache.thrift.async.AsyncMethodCallback<GimbalState> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
+        final org.apache.thrift.AsyncProcessFunction fcall = this;
+        return new org.apache.thrift.async.AsyncMethodCallback<GimbalState>() { 
+          public void onComplete(GimbalState o) {
+            getGimbalState_result result = new getGimbalState_result();
+            result.success = o;
+            try {
+              fcall.sendResponse(fb, result, org.apache.thrift.protocol.TMessageType.REPLY,seqid);
+            } catch (org.apache.thrift.transport.TTransportException e) {
+              _LOGGER.error("TTransportException writing to internal frame buffer", e);
+              fb.close();
+            } catch (java.lang.Exception e) {
+              _LOGGER.error("Exception writing to internal frame buffer", e);
+              onError(e);
+            }
+          }
+          public void onError(java.lang.Exception e) {
+            byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
+            org.apache.thrift.TSerializable msg;
+            getGimbalState_result result = new getGimbalState_result();
+            if (e instanceof org.apache.thrift.transport.TTransportException) {
+              _LOGGER.error("TTransportException inside handler", e);
+              fb.close();
+              return;
+            } else if (e instanceof org.apache.thrift.TApplicationException) {
+              _LOGGER.error("TApplicationException inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = (org.apache.thrift.TApplicationException)e;
+            } else {
+              _LOGGER.error("Exception inside handler", e);
+              msgType = org.apache.thrift.protocol.TMessageType.EXCEPTION;
+              msg = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, e.getMessage());
+            }
+            try {
+              fcall.sendResponse(fb,msg,msgType,seqid);
+            } catch (java.lang.Exception ex) {
+              _LOGGER.error("Exception writing to internal frame buffer", ex);
+              fb.close();
+            }
+          }
+        };
+      }
+
+      protected boolean isOneway() {
+        return false;
+      }
+
+      public void start(I iface, getGimbalState_args args, org.apache.thrift.async.AsyncMethodCallback<GimbalState> resultHandler) throws org.apache.thrift.TException {
+        iface.getGimbalState(resultHandler);
       }
     }
 
@@ -12430,6 +12728,929 @@ public class Drone {
     }
   }
 
+  public static class setGimbalAttitude_args implements org.apache.thrift.TBase<setGimbalAttitude_args, setGimbalAttitude_args._Fields>, java.io.Serializable, Cloneable, Comparable<setGimbalAttitude_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setGimbalAttitude_args");
+
+    private static final org.apache.thrift.protocol.TField PITCH_FIELD_DESC = new org.apache.thrift.protocol.TField("pitch", org.apache.thrift.protocol.TType.DOUBLE, (short)1);
+    private static final org.apache.thrift.protocol.TField ROLL_FIELD_DESC = new org.apache.thrift.protocol.TField("roll", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
+    private static final org.apache.thrift.protocol.TField YAW_FIELD_DESC = new org.apache.thrift.protocol.TField("yaw", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new setGimbalAttitude_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new setGimbalAttitude_argsTupleSchemeFactory();
+
+    public double pitch; // required
+    public double roll; // required
+    public double yaw; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      PITCH((short)1, "pitch"),
+      ROLL((short)2, "roll"),
+      YAW((short)3, "yaw");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // PITCH
+            return PITCH;
+          case 2: // ROLL
+            return ROLL;
+          case 3: // YAW
+            return YAW;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __PITCH_ISSET_ID = 0;
+    private static final int __ROLL_ISSET_ID = 1;
+    private static final int __YAW_ISSET_ID = 2;
+    private byte __isset_bitfield = 0;
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.PITCH, new org.apache.thrift.meta_data.FieldMetaData("pitch", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+      tmpMap.put(_Fields.ROLL, new org.apache.thrift.meta_data.FieldMetaData("roll", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+      tmpMap.put(_Fields.YAW, new org.apache.thrift.meta_data.FieldMetaData("yaw", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setGimbalAttitude_args.class, metaDataMap);
+    }
+
+    public setGimbalAttitude_args() {
+    }
+
+    public setGimbalAttitude_args(
+      double pitch,
+      double roll,
+      double yaw)
+    {
+      this();
+      this.pitch = pitch;
+      setPitchIsSet(true);
+      this.roll = roll;
+      setRollIsSet(true);
+      this.yaw = yaw;
+      setYawIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public setGimbalAttitude_args(setGimbalAttitude_args other) {
+      __isset_bitfield = other.__isset_bitfield;
+      this.pitch = other.pitch;
+      this.roll = other.roll;
+      this.yaw = other.yaw;
+    }
+
+    public setGimbalAttitude_args deepCopy() {
+      return new setGimbalAttitude_args(this);
+    }
+
+    @Override
+    public void clear() {
+      setPitchIsSet(false);
+      this.pitch = 0.0;
+      setRollIsSet(false);
+      this.roll = 0.0;
+      setYawIsSet(false);
+      this.yaw = 0.0;
+    }
+
+    public double getPitch() {
+      return this.pitch;
+    }
+
+    public setGimbalAttitude_args setPitch(double pitch) {
+      this.pitch = pitch;
+      setPitchIsSet(true);
+      return this;
+    }
+
+    public void unsetPitch() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __PITCH_ISSET_ID);
+    }
+
+    /** Returns true if field pitch is set (has been assigned a value) and false otherwise */
+    public boolean isSetPitch() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __PITCH_ISSET_ID);
+    }
+
+    public void setPitchIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __PITCH_ISSET_ID, value);
+    }
+
+    public double getRoll() {
+      return this.roll;
+    }
+
+    public setGimbalAttitude_args setRoll(double roll) {
+      this.roll = roll;
+      setRollIsSet(true);
+      return this;
+    }
+
+    public void unsetRoll() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __ROLL_ISSET_ID);
+    }
+
+    /** Returns true if field roll is set (has been assigned a value) and false otherwise */
+    public boolean isSetRoll() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __ROLL_ISSET_ID);
+    }
+
+    public void setRollIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __ROLL_ISSET_ID, value);
+    }
+
+    public double getYaw() {
+      return this.yaw;
+    }
+
+    public setGimbalAttitude_args setYaw(double yaw) {
+      this.yaw = yaw;
+      setYawIsSet(true);
+      return this;
+    }
+
+    public void unsetYaw() {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __YAW_ISSET_ID);
+    }
+
+    /** Returns true if field yaw is set (has been assigned a value) and false otherwise */
+    public boolean isSetYaw() {
+      return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __YAW_ISSET_ID);
+    }
+
+    public void setYawIsSet(boolean value) {
+      __isset_bitfield = org.apache.thrift.EncodingUtils.setBit(__isset_bitfield, __YAW_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case PITCH:
+        if (value == null) {
+          unsetPitch();
+        } else {
+          setPitch((java.lang.Double)value);
+        }
+        break;
+
+      case ROLL:
+        if (value == null) {
+          unsetRoll();
+        } else {
+          setRoll((java.lang.Double)value);
+        }
+        break;
+
+      case YAW:
+        if (value == null) {
+          unsetYaw();
+        } else {
+          setYaw((java.lang.Double)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case PITCH:
+        return getPitch();
+
+      case ROLL:
+        return getRoll();
+
+      case YAW:
+        return getYaw();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case PITCH:
+        return isSetPitch();
+      case ROLL:
+        return isSetRoll();
+      case YAW:
+        return isSetYaw();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof setGimbalAttitude_args)
+        return this.equals((setGimbalAttitude_args)that);
+      return false;
+    }
+
+    public boolean equals(setGimbalAttitude_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_pitch = true;
+      boolean that_present_pitch = true;
+      if (this_present_pitch || that_present_pitch) {
+        if (!(this_present_pitch && that_present_pitch))
+          return false;
+        if (this.pitch != that.pitch)
+          return false;
+      }
+
+      boolean this_present_roll = true;
+      boolean that_present_roll = true;
+      if (this_present_roll || that_present_roll) {
+        if (!(this_present_roll && that_present_roll))
+          return false;
+        if (this.roll != that.roll)
+          return false;
+      }
+
+      boolean this_present_yaw = true;
+      boolean that_present_yaw = true;
+      if (this_present_yaw || that_present_yaw) {
+        if (!(this_present_yaw && that_present_yaw))
+          return false;
+        if (this.yaw != that.yaw)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(pitch);
+
+      hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(roll);
+
+      hashCode = hashCode * 8191 + org.apache.thrift.TBaseHelper.hashCode(yaw);
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(setGimbalAttitude_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetPitch(), other.isSetPitch());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetPitch()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.pitch, other.pitch);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetRoll(), other.isSetRoll());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetRoll()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.roll, other.roll);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = java.lang.Boolean.compare(isSetYaw(), other.isSetYaw());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetYaw()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.yaw, other.yaw);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("setGimbalAttitude_args(");
+      boolean first = true;
+
+      sb.append("pitch:");
+      sb.append(this.pitch);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("roll:");
+      sb.append(this.roll);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("yaw:");
+      sb.append(this.yaw);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bitfield = 0;
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class setGimbalAttitude_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public setGimbalAttitude_argsStandardScheme getScheme() {
+        return new setGimbalAttitude_argsStandardScheme();
+      }
+    }
+
+    private static class setGimbalAttitude_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<setGimbalAttitude_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, setGimbalAttitude_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 1: // PITCH
+              if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+                struct.pitch = iprot.readDouble();
+                struct.setPitchIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // ROLL
+              if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+                struct.roll = iprot.readDouble();
+                struct.setRollIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 3: // YAW
+              if (schemeField.type == org.apache.thrift.protocol.TType.DOUBLE) {
+                struct.yaw = iprot.readDouble();
+                struct.setYawIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, setGimbalAttitude_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldBegin(PITCH_FIELD_DESC);
+        oprot.writeDouble(struct.pitch);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(ROLL_FIELD_DESC);
+        oprot.writeDouble(struct.roll);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(YAW_FIELD_DESC);
+        oprot.writeDouble(struct.yaw);
+        oprot.writeFieldEnd();
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class setGimbalAttitude_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public setGimbalAttitude_argsTupleScheme getScheme() {
+        return new setGimbalAttitude_argsTupleScheme();
+      }
+    }
+
+    private static class setGimbalAttitude_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<setGimbalAttitude_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, setGimbalAttitude_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetPitch()) {
+          optionals.set(0);
+        }
+        if (struct.isSetRoll()) {
+          optionals.set(1);
+        }
+        if (struct.isSetYaw()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
+        if (struct.isSetPitch()) {
+          oprot.writeDouble(struct.pitch);
+        }
+        if (struct.isSetRoll()) {
+          oprot.writeDouble(struct.roll);
+        }
+        if (struct.isSetYaw()) {
+          oprot.writeDouble(struct.yaw);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, setGimbalAttitude_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(3);
+        if (incoming.get(0)) {
+          struct.pitch = iprot.readDouble();
+          struct.setPitchIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.roll = iprot.readDouble();
+          struct.setRollIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.yaw = iprot.readDouble();
+          struct.setYawIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class setGimbalAttitude_result implements org.apache.thrift.TBase<setGimbalAttitude_result, setGimbalAttitude_result._Fields>, java.io.Serializable, Cloneable, Comparable<setGimbalAttitude_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setGimbalAttitude_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new setGimbalAttitude_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new setGimbalAttitude_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable DroneReply success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT          , "DroneReply")));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setGimbalAttitude_result.class, metaDataMap);
+    }
+
+    public setGimbalAttitude_result() {
+    }
+
+    public setGimbalAttitude_result(
+      DroneReply success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public setGimbalAttitude_result(setGimbalAttitude_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new DroneReply(other.success);
+      }
+    }
+
+    public setGimbalAttitude_result deepCopy() {
+      return new setGimbalAttitude_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public DroneReply getSuccess() {
+      return this.success;
+    }
+
+    public setGimbalAttitude_result setSuccess(@org.apache.thrift.annotation.Nullable DroneReply success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((DroneReply)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof setGimbalAttitude_result)
+        return this.equals((setGimbalAttitude_result)that);
+      return false;
+    }
+
+    public boolean equals(setGimbalAttitude_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(setGimbalAttitude_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("setGimbalAttitude_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class setGimbalAttitude_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public setGimbalAttitude_resultStandardScheme getScheme() {
+        return new setGimbalAttitude_resultStandardScheme();
+      }
+    }
+
+    private static class setGimbalAttitude_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<setGimbalAttitude_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, setGimbalAttitude_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new DroneReply();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, setGimbalAttitude_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class setGimbalAttitude_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public setGimbalAttitude_resultTupleScheme getScheme() {
+        return new setGimbalAttitude_resultTupleScheme();
+      }
+    }
+
+    private static class setGimbalAttitude_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<setGimbalAttitude_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, setGimbalAttitude_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, setGimbalAttitude_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new DroneReply();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
   public static class getCameraState_args implements org.apache.thrift.TBase<getCameraState_args, getCameraState_args._Fields>, java.io.Serializable, Cloneable, Comparable<getCameraState_args>   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getCameraState_args");
 
@@ -13042,6 +14263,629 @@ public class Drone {
         java.util.BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           struct.success = new CameraState();
+          struct.success.read(iprot);
+          struct.setSuccessIsSet(true);
+        }
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class getGimbalState_args implements org.apache.thrift.TBase<getGimbalState_args, getGimbalState_args._Fields>, java.io.Serializable, Cloneable, Comparable<getGimbalState_args>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getGimbalState_args");
+
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getGimbalState_argsStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getGimbalState_argsTupleSchemeFactory();
+
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+;
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getGimbalState_args.class, metaDataMap);
+    }
+
+    public getGimbalState_args() {
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public getGimbalState_args(getGimbalState_args other) {
+    }
+
+    public getGimbalState_args deepCopy() {
+      return new getGimbalState_args(this);
+    }
+
+    @Override
+    public void clear() {
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof getGimbalState_args)
+        return this.equals((getGimbalState_args)that);
+      return false;
+    }
+
+    public boolean equals(getGimbalState_args that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(getGimbalState_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+    }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("getGimbalState_args(");
+      boolean first = true;
+
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class getGimbalState_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getGimbalState_argsStandardScheme getScheme() {
+        return new getGimbalState_argsStandardScheme();
+      }
+    }
+
+    private static class getGimbalState_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<getGimbalState_args> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getGimbalState_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getGimbalState_args struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class getGimbalState_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getGimbalState_argsTupleScheme getScheme() {
+        return new getGimbalState_argsTupleScheme();
+      }
+    }
+
+    private static class getGimbalState_argsTupleScheme extends org.apache.thrift.scheme.TupleScheme<getGimbalState_args> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, getGimbalState_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, getGimbalState_args struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+      }
+    }
+
+    private static <S extends org.apache.thrift.scheme.IScheme> S scheme(org.apache.thrift.protocol.TProtocol proto) {
+      return (org.apache.thrift.scheme.StandardScheme.class.equals(proto.getScheme()) ? STANDARD_SCHEME_FACTORY : TUPLE_SCHEME_FACTORY).getScheme();
+    }
+  }
+
+  public static class getGimbalState_result implements org.apache.thrift.TBase<getGimbalState_result, getGimbalState_result._Fields>, java.io.Serializable, Cloneable, Comparable<getGimbalState_result>   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getGimbalState_result");
+
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+
+    private static final org.apache.thrift.scheme.SchemeFactory STANDARD_SCHEME_FACTORY = new getGimbalState_resultStandardSchemeFactory();
+    private static final org.apache.thrift.scheme.SchemeFactory TUPLE_SCHEME_FACTORY = new getGimbalState_resultTupleSchemeFactory();
+
+    public @org.apache.thrift.annotation.Nullable GimbalState success; // required
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
+      SUCCESS((short)0, "success");
+
+      private static final java.util.Map<java.lang.String, _Fields> byName = new java.util.HashMap<java.lang.String, _Fields>();
+
+      static {
+        for (_Fields field : java.util.EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new java.lang.IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      @org.apache.thrift.annotation.Nullable
+      public static _Fields findByName(java.lang.String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final java.lang.String _fieldName;
+
+      _Fields(short thriftId, java.lang.String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public java.lang.String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
+    static {
+      java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new java.util.EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT          , "GimbalState")));
+      metaDataMap = java.util.Collections.unmodifiableMap(tmpMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getGimbalState_result.class, metaDataMap);
+    }
+
+    public getGimbalState_result() {
+    }
+
+    public getGimbalState_result(
+      GimbalState success)
+    {
+      this();
+      this.success = success;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public getGimbalState_result(getGimbalState_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new GimbalState(other.success);
+      }
+    }
+
+    public getGimbalState_result deepCopy() {
+      return new getGimbalState_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public GimbalState getSuccess() {
+      return this.success;
+    }
+
+    public getGimbalState_result setSuccess(@org.apache.thrift.annotation.Nullable GimbalState success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable java.lang.Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((GimbalState)value);
+        }
+        break;
+
+      }
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public java.lang.Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new java.lang.IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      }
+      throw new java.lang.IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(java.lang.Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof getGimbalState_result)
+        return this.equals((getGimbalState_result)that);
+      return false;
+    }
+
+    public boolean equals(getGimbalState_result that) {
+      if (that == null)
+        return false;
+      if (this == that)
+        return true;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      int hashCode = 1;
+
+      hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
+      if (isSetSuccess())
+        hashCode = hashCode * 8191 + success.hashCode();
+
+      return hashCode;
+    }
+
+    @Override
+    public int compareTo(getGimbalState_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+
+      lastComparison = java.lang.Boolean.compare(isSetSuccess(), other.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, other.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    @org.apache.thrift.annotation.Nullable
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      scheme(iprot).read(iprot, this);
+    }
+
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
+      scheme(oprot).write(oprot, this);
+      }
+
+    @Override
+    public java.lang.String toString() {
+      java.lang.StringBuilder sb = new java.lang.StringBuilder("getGimbalState_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws org.apache.thrift.TException {
+      // check for required fields
+      // check for sub-struct validity
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, java.lang.ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private static class getGimbalState_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getGimbalState_resultStandardScheme getScheme() {
+        return new getGimbalState_resultStandardScheme();
+      }
+    }
+
+    private static class getGimbalState_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<getGimbalState_result> {
+
+      public void read(org.apache.thrift.protocol.TProtocol iprot, getGimbalState_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TField schemeField;
+        iprot.readStructBegin();
+        while (true)
+        {
+          schemeField = iprot.readFieldBegin();
+          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
+            break;
+          }
+          switch (schemeField.id) {
+            case 0: // SUCCESS
+              if (schemeField.type == org.apache.thrift.protocol.TType.STRUCT) {
+                struct.success = new GimbalState();
+                struct.success.read(iprot);
+                struct.setSuccessIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            default:
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+          }
+          iprot.readFieldEnd();
+        }
+        iprot.readStructEnd();
+
+        // check for required fields of primitive type, which can't be checked in the validate method
+        struct.validate();
+      }
+
+      public void write(org.apache.thrift.protocol.TProtocol oprot, getGimbalState_result struct) throws org.apache.thrift.TException {
+        struct.validate();
+
+        oprot.writeStructBegin(STRUCT_DESC);
+        if (struct.success != null) {
+          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+          struct.success.write(oprot);
+          oprot.writeFieldEnd();
+        }
+        oprot.writeFieldStop();
+        oprot.writeStructEnd();
+      }
+
+    }
+
+    private static class getGimbalState_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      public getGimbalState_resultTupleScheme getScheme() {
+        return new getGimbalState_resultTupleScheme();
+      }
+    }
+
+    private static class getGimbalState_resultTupleScheme extends org.apache.thrift.scheme.TupleScheme<getGimbalState_result> {
+
+      @Override
+      public void write(org.apache.thrift.protocol.TProtocol prot, getGimbalState_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol oprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet optionals = new java.util.BitSet();
+        if (struct.isSetSuccess()) {
+          optionals.set(0);
+        }
+        oprot.writeBitSet(optionals, 1);
+        if (struct.isSetSuccess()) {
+          struct.success.write(oprot);
+        }
+      }
+
+      @Override
+      public void read(org.apache.thrift.protocol.TProtocol prot, getGimbalState_result struct) throws org.apache.thrift.TException {
+        org.apache.thrift.protocol.TTupleProtocol iprot = (org.apache.thrift.protocol.TTupleProtocol) prot;
+        java.util.BitSet incoming = iprot.readBitSet(1);
+        if (incoming.get(0)) {
+          struct.success = new GimbalState();
           struct.success.read(iprot);
           struct.setSuccessIsSet(true);
         }

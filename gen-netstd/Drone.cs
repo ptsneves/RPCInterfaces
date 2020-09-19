@@ -57,7 +57,11 @@ public partial class Drone
 
     Task<DroneReply> setCameraZoomAsync(double zoom_level, CancellationToken cancellationToken = default(CancellationToken));
 
+    Task<DroneReply> setGimbalAttitudeAsync(double pitch, double roll, double yaw, CancellationToken cancellationToken = default(CancellationToken));
+
     Task<CameraState> getCameraStateAsync(CancellationToken cancellationToken = default(CancellationToken));
+
+    Task<GimbalState> getGimbalStateAsync(CancellationToken cancellationToken = default(CancellationToken));
 
   }
 
@@ -496,6 +500,37 @@ public partial class Drone
       throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "setCameraZoom failed: unknown result");
     }
 
+    public async Task<DroneReply> setGimbalAttitudeAsync(double pitch, double roll, double yaw, CancellationToken cancellationToken = default(CancellationToken))
+    {
+      await OutputProtocol.WriteMessageBeginAsync(new TMessage("setGimbalAttitude", TMessageType.Call, SeqId), cancellationToken);
+      
+      var args = new setGimbalAttitudeArgs();
+      args.Pitch = pitch;
+      args.Roll = roll;
+      args.Yaw = yaw;
+      
+      await args.WriteAsync(OutputProtocol, cancellationToken);
+      await OutputProtocol.WriteMessageEndAsync(cancellationToken);
+      await OutputProtocol.Transport.FlushAsync(cancellationToken);
+      
+      var msg = await InputProtocol.ReadMessageBeginAsync(cancellationToken);
+      if (msg.Type == TMessageType.Exception)
+      {
+        var x = await TApplicationException.ReadAsync(InputProtocol, cancellationToken);
+        await InputProtocol.ReadMessageEndAsync(cancellationToken);
+        throw x;
+      }
+
+      var result = new setGimbalAttitudeResult();
+      await result.ReadAsync(InputProtocol, cancellationToken);
+      await InputProtocol.ReadMessageEndAsync(cancellationToken);
+      if (result.__isset.success)
+      {
+        return result.Success;
+      }
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "setGimbalAttitude failed: unknown result");
+    }
+
     public async Task<CameraState> getCameraStateAsync(CancellationToken cancellationToken = default(CancellationToken))
     {
       await OutputProtocol.WriteMessageBeginAsync(new TMessage("getCameraState", TMessageType.Call, SeqId), cancellationToken);
@@ -524,6 +559,34 @@ public partial class Drone
       throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "getCameraState failed: unknown result");
     }
 
+    public async Task<GimbalState> getGimbalStateAsync(CancellationToken cancellationToken = default(CancellationToken))
+    {
+      await OutputProtocol.WriteMessageBeginAsync(new TMessage("getGimbalState", TMessageType.Call, SeqId), cancellationToken);
+      
+      var args = new getGimbalStateArgs();
+      
+      await args.WriteAsync(OutputProtocol, cancellationToken);
+      await OutputProtocol.WriteMessageEndAsync(cancellationToken);
+      await OutputProtocol.Transport.FlushAsync(cancellationToken);
+      
+      var msg = await InputProtocol.ReadMessageBeginAsync(cancellationToken);
+      if (msg.Type == TMessageType.Exception)
+      {
+        var x = await TApplicationException.ReadAsync(InputProtocol, cancellationToken);
+        await InputProtocol.ReadMessageEndAsync(cancellationToken);
+        throw x;
+      }
+
+      var result = new getGimbalStateResult();
+      await result.ReadAsync(InputProtocol, cancellationToken);
+      await InputProtocol.ReadMessageEndAsync(cancellationToken);
+      if (result.__isset.success)
+      {
+        return result.Success;
+      }
+      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "getGimbalState failed: unknown result");
+    }
+
   }
 
   public class AsyncProcessor : ITAsyncProcessor
@@ -550,7 +613,9 @@ public partial class Drone
       processMap_["takePicture"] = takePicture_ProcessAsync;
       processMap_["recordVideo"] = recordVideo_ProcessAsync;
       processMap_["setCameraZoom"] = setCameraZoom_ProcessAsync;
+      processMap_["setGimbalAttitude"] = setGimbalAttitude_ProcessAsync;
       processMap_["getCameraState"] = getCameraState_ProcessAsync;
+      processMap_["getGimbalState"] = getGimbalState_ProcessAsync;
     }
 
     protected delegate Task ProcessFunction(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken);
@@ -1013,6 +1078,34 @@ public partial class Drone
       await oprot.Transport.FlushAsync(cancellationToken);
     }
 
+    public async Task setGimbalAttitude_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
+    {
+      var args = new setGimbalAttitudeArgs();
+      await args.ReadAsync(iprot, cancellationToken);
+      await iprot.ReadMessageEndAsync(cancellationToken);
+      var result = new setGimbalAttitudeResult();
+      try
+      {
+        result.Success = await _iAsync.setGimbalAttitudeAsync(args.Pitch, args.Roll, args.Yaw, cancellationToken);
+        await oprot.WriteMessageBeginAsync(new TMessage("setGimbalAttitude", TMessageType.Reply, seqid), cancellationToken); 
+        await result.WriteAsync(oprot, cancellationToken);
+      }
+      catch (TTransportException)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        Console.Error.WriteLine("Error occurred in processor:");
+        Console.Error.WriteLine(ex.ToString());
+        var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
+        await oprot.WriteMessageBeginAsync(new TMessage("setGimbalAttitude", TMessageType.Exception, seqid), cancellationToken);
+        await x.WriteAsync(oprot, cancellationToken);
+      }
+      await oprot.WriteMessageEndAsync(cancellationToken);
+      await oprot.Transport.FlushAsync(cancellationToken);
+    }
+
     public async Task getCameraState_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
     {
       var args = new getCameraStateArgs();
@@ -1035,6 +1128,34 @@ public partial class Drone
         Console.Error.WriteLine(ex.ToString());
         var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
         await oprot.WriteMessageBeginAsync(new TMessage("getCameraState", TMessageType.Exception, seqid), cancellationToken);
+        await x.WriteAsync(oprot, cancellationToken);
+      }
+      await oprot.WriteMessageEndAsync(cancellationToken);
+      await oprot.Transport.FlushAsync(cancellationToken);
+    }
+
+    public async Task getGimbalState_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
+    {
+      var args = new getGimbalStateArgs();
+      await args.ReadAsync(iprot, cancellationToken);
+      await iprot.ReadMessageEndAsync(cancellationToken);
+      var result = new getGimbalStateResult();
+      try
+      {
+        result.Success = await _iAsync.getGimbalStateAsync(cancellationToken);
+        await oprot.WriteMessageBeginAsync(new TMessage("getGimbalState", TMessageType.Reply, seqid), cancellationToken); 
+        await result.WriteAsync(oprot, cancellationToken);
+      }
+      catch (TTransportException)
+      {
+        throw;
+      }
+      catch (Exception ex)
+      {
+        Console.Error.WriteLine("Error occurred in processor:");
+        Console.Error.WriteLine(ex.ToString());
+        var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
+        await oprot.WriteMessageBeginAsync(new TMessage("getGimbalState", TMessageType.Exception, seqid), cancellationToken);
         await x.WriteAsync(oprot, cancellationToken);
       }
       await oprot.WriteMessageEndAsync(cancellationToken);
@@ -4595,6 +4716,361 @@ public partial class Drone
   }
 
 
+  public partial class setGimbalAttitudeArgs : TBase
+  {
+    private double _pitch;
+    private double _roll;
+    private double _yaw;
+
+    public double Pitch
+    {
+      get
+      {
+        return _pitch;
+      }
+      set
+      {
+        __isset.pitch = true;
+        this._pitch = value;
+      }
+    }
+
+    public double Roll
+    {
+      get
+      {
+        return _roll;
+      }
+      set
+      {
+        __isset.roll = true;
+        this._roll = value;
+      }
+    }
+
+    public double Yaw
+    {
+      get
+      {
+        return _yaw;
+      }
+      set
+      {
+        __isset.yaw = true;
+        this._yaw = value;
+      }
+    }
+
+
+    public Isset __isset;
+    public struct Isset
+    {
+      public bool pitch;
+      public bool roll;
+      public bool yaw;
+    }
+
+    public setGimbalAttitudeArgs()
+    {
+    }
+
+    public async Task ReadAsync(TProtocol iprot, CancellationToken cancellationToken)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        await iprot.ReadStructBeginAsync(cancellationToken);
+        while (true)
+        {
+          field = await iprot.ReadFieldBeginAsync(cancellationToken);
+          if (field.Type == TType.Stop)
+          {
+            break;
+          }
+
+          switch (field.ID)
+          {
+            case 1:
+              if (field.Type == TType.Double)
+              {
+                Pitch = await iprot.ReadDoubleAsync(cancellationToken);
+              }
+              else
+              {
+                await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              }
+              break;
+            case 2:
+              if (field.Type == TType.Double)
+              {
+                Roll = await iprot.ReadDoubleAsync(cancellationToken);
+              }
+              else
+              {
+                await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              }
+              break;
+            case 3:
+              if (field.Type == TType.Double)
+              {
+                Yaw = await iprot.ReadDoubleAsync(cancellationToken);
+              }
+              else
+              {
+                await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              }
+              break;
+            default: 
+              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              break;
+          }
+
+          await iprot.ReadFieldEndAsync(cancellationToken);
+        }
+
+        await iprot.ReadStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public async Task WriteAsync(TProtocol oprot, CancellationToken cancellationToken)
+    {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        var struc = new TStruct("setGimbalAttitude_args");
+        await oprot.WriteStructBeginAsync(struc, cancellationToken);
+        var field = new TField();
+        if (__isset.pitch)
+        {
+          field.Name = "pitch";
+          field.Type = TType.Double;
+          field.ID = 1;
+          await oprot.WriteFieldBeginAsync(field, cancellationToken);
+          await oprot.WriteDoubleAsync(Pitch, cancellationToken);
+          await oprot.WriteFieldEndAsync(cancellationToken);
+        }
+        if (__isset.roll)
+        {
+          field.Name = "roll";
+          field.Type = TType.Double;
+          field.ID = 2;
+          await oprot.WriteFieldBeginAsync(field, cancellationToken);
+          await oprot.WriteDoubleAsync(Roll, cancellationToken);
+          await oprot.WriteFieldEndAsync(cancellationToken);
+        }
+        if (__isset.yaw)
+        {
+          field.Name = "yaw";
+          field.Type = TType.Double;
+          field.ID = 3;
+          await oprot.WriteFieldBeginAsync(field, cancellationToken);
+          await oprot.WriteDoubleAsync(Yaw, cancellationToken);
+          await oprot.WriteFieldEndAsync(cancellationToken);
+        }
+        await oprot.WriteFieldStopAsync(cancellationToken);
+        await oprot.WriteStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override bool Equals(object that)
+    {
+      var other = that as setGimbalAttitudeArgs;
+      if (other == null) return false;
+      if (ReferenceEquals(this, other)) return true;
+      return ((__isset.pitch == other.__isset.pitch) && ((!__isset.pitch) || (System.Object.Equals(Pitch, other.Pitch))))
+        && ((__isset.roll == other.__isset.roll) && ((!__isset.roll) || (System.Object.Equals(Roll, other.Roll))))
+        && ((__isset.yaw == other.__isset.yaw) && ((!__isset.yaw) || (System.Object.Equals(Yaw, other.Yaw))));
+    }
+
+    public override int GetHashCode() {
+      int hashcode = 157;
+      unchecked {
+        if(__isset.pitch)
+          hashcode = (hashcode * 397) + Pitch.GetHashCode();
+        if(__isset.roll)
+          hashcode = (hashcode * 397) + Roll.GetHashCode();
+        if(__isset.yaw)
+          hashcode = (hashcode * 397) + Yaw.GetHashCode();
+      }
+      return hashcode;
+    }
+
+    public override string ToString()
+    {
+      var sb = new StringBuilder("setGimbalAttitude_args(");
+      bool __first = true;
+      if (__isset.pitch)
+      {
+        if(!__first) { sb.Append(", "); }
+        __first = false;
+        sb.Append("Pitch: ");
+        sb.Append(Pitch);
+      }
+      if (__isset.roll)
+      {
+        if(!__first) { sb.Append(", "); }
+        __first = false;
+        sb.Append("Roll: ");
+        sb.Append(Roll);
+      }
+      if (__isset.yaw)
+      {
+        if(!__first) { sb.Append(", "); }
+        __first = false;
+        sb.Append("Yaw: ");
+        sb.Append(Yaw);
+      }
+      sb.Append(")");
+      return sb.ToString();
+    }
+  }
+
+
+  public partial class setGimbalAttitudeResult : TBase
+  {
+    private DroneReply _success;
+
+    public DroneReply Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    public struct Isset
+    {
+      public bool success;
+    }
+
+    public setGimbalAttitudeResult()
+    {
+    }
+
+    public async Task ReadAsync(TProtocol iprot, CancellationToken cancellationToken)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        await iprot.ReadStructBeginAsync(cancellationToken);
+        while (true)
+        {
+          field = await iprot.ReadFieldBeginAsync(cancellationToken);
+          if (field.Type == TType.Stop)
+          {
+            break;
+          }
+
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.Struct)
+              {
+                Success = new DroneReply();
+                await Success.ReadAsync(iprot, cancellationToken);
+              }
+              else
+              {
+                await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              }
+              break;
+            default: 
+              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              break;
+          }
+
+          await iprot.ReadFieldEndAsync(cancellationToken);
+        }
+
+        await iprot.ReadStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public async Task WriteAsync(TProtocol oprot, CancellationToken cancellationToken)
+    {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        var struc = new TStruct("setGimbalAttitude_result");
+        await oprot.WriteStructBeginAsync(struc, cancellationToken);
+        var field = new TField();
+
+        if(this.__isset.success)
+        {
+          if (Success != null)
+          {
+            field.Name = "Success";
+            field.Type = TType.Struct;
+            field.ID = 0;
+            await oprot.WriteFieldBeginAsync(field, cancellationToken);
+            await Success.WriteAsync(oprot, cancellationToken);
+            await oprot.WriteFieldEndAsync(cancellationToken);
+          }
+        }
+        await oprot.WriteFieldStopAsync(cancellationToken);
+        await oprot.WriteStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override bool Equals(object that)
+    {
+      var other = that as setGimbalAttitudeResult;
+      if (other == null) return false;
+      if (ReferenceEquals(this, other)) return true;
+      return ((__isset.success == other.__isset.success) && ((!__isset.success) || (System.Object.Equals(Success, other.Success))));
+    }
+
+    public override int GetHashCode() {
+      int hashcode = 157;
+      unchecked {
+        if(__isset.success)
+          hashcode = (hashcode * 397) + Success.GetHashCode();
+      }
+      return hashcode;
+    }
+
+    public override string ToString()
+    {
+      var sb = new StringBuilder("setGimbalAttitude_result(");
+      bool __first = true;
+      if (Success != null && __isset.success)
+      {
+        if(!__first) { sb.Append(", "); }
+        __first = false;
+        sb.Append("Success: ");
+        sb.Append(Success);
+      }
+      sb.Append(")");
+      return sb.ToString();
+    }
+  }
+
+
   public partial class getCameraStateArgs : TBase
   {
 
@@ -4797,6 +5273,222 @@ public partial class Drone
     public override string ToString()
     {
       var sb = new StringBuilder("getCameraState_result(");
+      bool __first = true;
+      if (Success != null && __isset.success)
+      {
+        if(!__first) { sb.Append(", "); }
+        __first = false;
+        sb.Append("Success: ");
+        sb.Append(Success);
+      }
+      sb.Append(")");
+      return sb.ToString();
+    }
+  }
+
+
+  public partial class getGimbalStateArgs : TBase
+  {
+
+    public getGimbalStateArgs()
+    {
+    }
+
+    public async Task ReadAsync(TProtocol iprot, CancellationToken cancellationToken)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        await iprot.ReadStructBeginAsync(cancellationToken);
+        while (true)
+        {
+          field = await iprot.ReadFieldBeginAsync(cancellationToken);
+          if (field.Type == TType.Stop)
+          {
+            break;
+          }
+
+          switch (field.ID)
+          {
+            default: 
+              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              break;
+          }
+
+          await iprot.ReadFieldEndAsync(cancellationToken);
+        }
+
+        await iprot.ReadStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public async Task WriteAsync(TProtocol oprot, CancellationToken cancellationToken)
+    {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        var struc = new TStruct("getGimbalState_args");
+        await oprot.WriteStructBeginAsync(struc, cancellationToken);
+        await oprot.WriteFieldStopAsync(cancellationToken);
+        await oprot.WriteStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override bool Equals(object that)
+    {
+      var other = that as getGimbalStateArgs;
+      if (other == null) return false;
+      if (ReferenceEquals(this, other)) return true;
+      return true;
+    }
+
+    public override int GetHashCode() {
+      int hashcode = 157;
+      unchecked {
+      }
+      return hashcode;
+    }
+
+    public override string ToString()
+    {
+      var sb = new StringBuilder("getGimbalState_args(");
+      sb.Append(")");
+      return sb.ToString();
+    }
+  }
+
+
+  public partial class getGimbalStateResult : TBase
+  {
+    private GimbalState _success;
+
+    public GimbalState Success
+    {
+      get
+      {
+        return _success;
+      }
+      set
+      {
+        __isset.success = true;
+        this._success = value;
+      }
+    }
+
+
+    public Isset __isset;
+    public struct Isset
+    {
+      public bool success;
+    }
+
+    public getGimbalStateResult()
+    {
+    }
+
+    public async Task ReadAsync(TProtocol iprot, CancellationToken cancellationToken)
+    {
+      iprot.IncrementRecursionDepth();
+      try
+      {
+        TField field;
+        await iprot.ReadStructBeginAsync(cancellationToken);
+        while (true)
+        {
+          field = await iprot.ReadFieldBeginAsync(cancellationToken);
+          if (field.Type == TType.Stop)
+          {
+            break;
+          }
+
+          switch (field.ID)
+          {
+            case 0:
+              if (field.Type == TType.Struct)
+              {
+                Success = new GimbalState();
+                await Success.ReadAsync(iprot, cancellationToken);
+              }
+              else
+              {
+                await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              }
+              break;
+            default: 
+              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
+              break;
+          }
+
+          await iprot.ReadFieldEndAsync(cancellationToken);
+        }
+
+        await iprot.ReadStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        iprot.DecrementRecursionDepth();
+      }
+    }
+
+    public async Task WriteAsync(TProtocol oprot, CancellationToken cancellationToken)
+    {
+      oprot.IncrementRecursionDepth();
+      try
+      {
+        var struc = new TStruct("getGimbalState_result");
+        await oprot.WriteStructBeginAsync(struc, cancellationToken);
+        var field = new TField();
+
+        if(this.__isset.success)
+        {
+          if (Success != null)
+          {
+            field.Name = "Success";
+            field.Type = TType.Struct;
+            field.ID = 0;
+            await oprot.WriteFieldBeginAsync(field, cancellationToken);
+            await Success.WriteAsync(oprot, cancellationToken);
+            await oprot.WriteFieldEndAsync(cancellationToken);
+          }
+        }
+        await oprot.WriteFieldStopAsync(cancellationToken);
+        await oprot.WriteStructEndAsync(cancellationToken);
+      }
+      finally
+      {
+        oprot.DecrementRecursionDepth();
+      }
+    }
+
+    public override bool Equals(object that)
+    {
+      var other = that as getGimbalStateResult;
+      if (other == null) return false;
+      if (ReferenceEquals(this, other)) return true;
+      return ((__isset.success == other.__isset.success) && ((!__isset.success) || (System.Object.Equals(Success, other.Success))));
+    }
+
+    public override int GetHashCode() {
+      int hashcode = 157;
+      unchecked {
+        if(__isset.success)
+          hashcode = (hashcode * 397) + Success.GetHashCode();
+      }
+      return hashcode;
+    }
+
+    public override string ToString()
+    {
+      var sb = new StringBuilder("getGimbalState_result(");
       bool __first = true;
       if (Success != null && __isset.success)
       {

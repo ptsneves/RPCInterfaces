@@ -16,7 +16,34 @@ service Drone {
     DroneReply takePicture(1: DroneTakePictureRequest request),
     DroneReply recordVideo(1: DroneRecordVideoRequest request),
     DroneReply setCameraZoom(1: double zoom_level),
+    DroneReply setGimbalAttitude(1: double pitch, 2: double roll, 3: double yaw),
     CameraState getCameraState(),
+    GimbalState getGimbalState(),
+}
+
+struct GimbalState {
+    1: GimbalCalibrationState calibration_state;
+    2: double roll;
+    3: double pitch;
+    4: double yaw;
+    5: double min_roll;
+    6: double max_roll;
+    7: double min_yaw;
+    8: double max_yaw;
+    9: double min_pitch;
+    10: double max_pitch;
+    11: bool is_roll_stastabilized;
+    12: bool is_yaw_stabilized;
+    13: bool is_pitch_stabilized;
+    14: string serial;
+    15: i64 timestamp;
+}
+
+enum GimbalCalibrationState {
+    CALIBRATED,
+    CALIBRATING,
+    UNCALIBRATED,
+    ERROR,
 }
 
 struct CameraState {
