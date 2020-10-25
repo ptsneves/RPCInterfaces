@@ -49,8 +49,6 @@ public partial class Drone
 
     Task<DroneReply> moveToPositionAsync(DroneRequestPosition request, CancellationToken cancellationToken = default(CancellationToken));
 
-    Task<DroneFileList> getFileListAsync(CancellationToken cancellationToken = default(CancellationToken));
-
     Task<DroneReply> takePictureAsync(DroneTakePictureRequest request, CancellationToken cancellationToken = default(CancellationToken));
 
     Task<DroneReply> recordVideoAsync(DroneRecordVideoRequest request, CancellationToken cancellationToken = default(CancellationToken));
@@ -385,34 +383,6 @@ public partial class Drone
       throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "moveToPosition failed: unknown result");
     }
 
-    public async Task<DroneFileList> getFileListAsync(CancellationToken cancellationToken = default(CancellationToken))
-    {
-      await OutputProtocol.WriteMessageBeginAsync(new TMessage("getFileList", TMessageType.Call, SeqId), cancellationToken);
-      
-      var args = new getFileListArgs();
-      
-      await args.WriteAsync(OutputProtocol, cancellationToken);
-      await OutputProtocol.WriteMessageEndAsync(cancellationToken);
-      await OutputProtocol.Transport.FlushAsync(cancellationToken);
-      
-      var msg = await InputProtocol.ReadMessageBeginAsync(cancellationToken);
-      if (msg.Type == TMessageType.Exception)
-      {
-        var x = await TApplicationException.ReadAsync(InputProtocol, cancellationToken);
-        await InputProtocol.ReadMessageEndAsync(cancellationToken);
-        throw x;
-      }
-
-      var result = new getFileListResult();
-      await result.ReadAsync(InputProtocol, cancellationToken);
-      await InputProtocol.ReadMessageEndAsync(cancellationToken);
-      if (result.__isset.success)
-      {
-        return result.Success;
-      }
-      throw new TApplicationException(TApplicationException.ExceptionType.MissingResult, "getFileList failed: unknown result");
-    }
-
     public async Task<DroneReply> takePictureAsync(DroneTakePictureRequest request, CancellationToken cancellationToken = default(CancellationToken))
     {
       await OutputProtocol.WriteMessageBeginAsync(new TMessage("takePicture", TMessageType.Call, SeqId), cancellationToken);
@@ -609,7 +579,6 @@ public partial class Drone
       processMap_["getFlyingState"] = getFlyingState_ProcessAsync;
       processMap_["getRadioSignal"] = getRadioSignal_ProcessAsync;
       processMap_["moveToPosition"] = moveToPosition_ProcessAsync;
-      processMap_["getFileList"] = getFileList_ProcessAsync;
       processMap_["takePicture"] = takePicture_ProcessAsync;
       processMap_["recordVideo"] = recordVideo_ProcessAsync;
       processMap_["setCameraZoom"] = setCameraZoom_ProcessAsync;
@@ -960,34 +929,6 @@ public partial class Drone
         Console.Error.WriteLine(ex.ToString());
         var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
         await oprot.WriteMessageBeginAsync(new TMessage("moveToPosition", TMessageType.Exception, seqid), cancellationToken);
-        await x.WriteAsync(oprot, cancellationToken);
-      }
-      await oprot.WriteMessageEndAsync(cancellationToken);
-      await oprot.Transport.FlushAsync(cancellationToken);
-    }
-
-    public async Task getFileList_ProcessAsync(int seqid, TProtocol iprot, TProtocol oprot, CancellationToken cancellationToken)
-    {
-      var args = new getFileListArgs();
-      await args.ReadAsync(iprot, cancellationToken);
-      await iprot.ReadMessageEndAsync(cancellationToken);
-      var result = new getFileListResult();
-      try
-      {
-        result.Success = await _iAsync.getFileListAsync(cancellationToken);
-        await oprot.WriteMessageBeginAsync(new TMessage("getFileList", TMessageType.Reply, seqid), cancellationToken); 
-        await result.WriteAsync(oprot, cancellationToken);
-      }
-      catch (TTransportException)
-      {
-        throw;
-      }
-      catch (Exception ex)
-      {
-        Console.Error.WriteLine("Error occurred in processor:");
-        Console.Error.WriteLine(ex.ToString());
-        var x = new TApplicationException(TApplicationException.ExceptionType.InternalError," Internal error.");
-        await oprot.WriteMessageBeginAsync(new TMessage("getFileList", TMessageType.Exception, seqid), cancellationToken);
         await x.WriteAsync(oprot, cancellationToken);
       }
       await oprot.WriteMessageEndAsync(cancellationToken);
@@ -3683,222 +3624,6 @@ public partial class Drone
     public override string ToString()
     {
       var sb = new StringBuilder("moveToPosition_result(");
-      bool __first = true;
-      if (Success != null && __isset.success)
-      {
-        if(!__first) { sb.Append(", "); }
-        __first = false;
-        sb.Append("Success: ");
-        sb.Append(Success);
-      }
-      sb.Append(")");
-      return sb.ToString();
-    }
-  }
-
-
-  public partial class getFileListArgs : TBase
-  {
-
-    public getFileListArgs()
-    {
-    }
-
-    public async Task ReadAsync(TProtocol iprot, CancellationToken cancellationToken)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        TField field;
-        await iprot.ReadStructBeginAsync(cancellationToken);
-        while (true)
-        {
-          field = await iprot.ReadFieldBeginAsync(cancellationToken);
-          if (field.Type == TType.Stop)
-          {
-            break;
-          }
-
-          switch (field.ID)
-          {
-            default: 
-              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
-              break;
-          }
-
-          await iprot.ReadFieldEndAsync(cancellationToken);
-        }
-
-        await iprot.ReadStructEndAsync(cancellationToken);
-      }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
-    }
-
-    public async Task WriteAsync(TProtocol oprot, CancellationToken cancellationToken)
-    {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        var struc = new TStruct("getFileList_args");
-        await oprot.WriteStructBeginAsync(struc, cancellationToken);
-        await oprot.WriteFieldStopAsync(cancellationToken);
-        await oprot.WriteStructEndAsync(cancellationToken);
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
-    }
-
-    public override bool Equals(object that)
-    {
-      var other = that as getFileListArgs;
-      if (other == null) return false;
-      if (ReferenceEquals(this, other)) return true;
-      return true;
-    }
-
-    public override int GetHashCode() {
-      int hashcode = 157;
-      unchecked {
-      }
-      return hashcode;
-    }
-
-    public override string ToString()
-    {
-      var sb = new StringBuilder("getFileList_args(");
-      sb.Append(")");
-      return sb.ToString();
-    }
-  }
-
-
-  public partial class getFileListResult : TBase
-  {
-    private DroneFileList _success;
-
-    public DroneFileList Success
-    {
-      get
-      {
-        return _success;
-      }
-      set
-      {
-        __isset.success = true;
-        this._success = value;
-      }
-    }
-
-
-    public Isset __isset;
-    public struct Isset
-    {
-      public bool success;
-    }
-
-    public getFileListResult()
-    {
-    }
-
-    public async Task ReadAsync(TProtocol iprot, CancellationToken cancellationToken)
-    {
-      iprot.IncrementRecursionDepth();
-      try
-      {
-        TField field;
-        await iprot.ReadStructBeginAsync(cancellationToken);
-        while (true)
-        {
-          field = await iprot.ReadFieldBeginAsync(cancellationToken);
-          if (field.Type == TType.Stop)
-          {
-            break;
-          }
-
-          switch (field.ID)
-          {
-            case 0:
-              if (field.Type == TType.Struct)
-              {
-                Success = new DroneFileList();
-                await Success.ReadAsync(iprot, cancellationToken);
-              }
-              else
-              {
-                await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
-              }
-              break;
-            default: 
-              await TProtocolUtil.SkipAsync(iprot, field.Type, cancellationToken);
-              break;
-          }
-
-          await iprot.ReadFieldEndAsync(cancellationToken);
-        }
-
-        await iprot.ReadStructEndAsync(cancellationToken);
-      }
-      finally
-      {
-        iprot.DecrementRecursionDepth();
-      }
-    }
-
-    public async Task WriteAsync(TProtocol oprot, CancellationToken cancellationToken)
-    {
-      oprot.IncrementRecursionDepth();
-      try
-      {
-        var struc = new TStruct("getFileList_result");
-        await oprot.WriteStructBeginAsync(struc, cancellationToken);
-        var field = new TField();
-
-        if(this.__isset.success)
-        {
-          if (Success != null)
-          {
-            field.Name = "Success";
-            field.Type = TType.Struct;
-            field.ID = 0;
-            await oprot.WriteFieldBeginAsync(field, cancellationToken);
-            await Success.WriteAsync(oprot, cancellationToken);
-            await oprot.WriteFieldEndAsync(cancellationToken);
-          }
-        }
-        await oprot.WriteFieldStopAsync(cancellationToken);
-        await oprot.WriteStructEndAsync(cancellationToken);
-      }
-      finally
-      {
-        oprot.DecrementRecursionDepth();
-      }
-    }
-
-    public override bool Equals(object that)
-    {
-      var other = that as getFileListResult;
-      if (other == null) return false;
-      if (ReferenceEquals(this, other)) return true;
-      return ((__isset.success == other.__isset.success) && ((!__isset.success) || (System.Object.Equals(Success, other.Success))));
-    }
-
-    public override int GetHashCode() {
-      int hashcode = 157;
-      unchecked {
-        if(__isset.success)
-          hashcode = (hashcode * 397) + Success.GetHashCode();
-      }
-      return hashcode;
-    }
-
-    public override string ToString()
-    {
-      var sb = new StringBuilder("getFileList_result(");
       bool __first = true;
       if (Success != null && __isset.success)
       {

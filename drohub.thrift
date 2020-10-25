@@ -12,7 +12,6 @@ service Drone {
     DroneFlyingState getFlyingState(),
     DroneRadioSignal getRadioSignal(),
     DroneReply moveToPosition(1: DroneRequestPosition request),
-    DroneFileList getFileList(),
     DroneReply takePicture(1: DroneTakePictureRequest request),
     DroneReply recordVideo(1: DroneRecordVideoRequest request),
     DroneReply setCameraZoom(1: double zoom_level),
@@ -62,12 +61,6 @@ enum CameraMode {
     ERROR,
 }
 
-enum FileResourceType {
-    VIDEO = 0,
-    IMAGE = 1,
-    OTHER = 2,
-}
-
 enum ActionType {
     START = 0,
     STOP = 1
@@ -79,12 +72,6 @@ struct DroneTakePictureRequest {
 
 struct DroneRecordVideoRequest {
     1: ActionType action_type;
-}
-
-struct FileEntry {
-    1: string resource_id;
-    2: optional string thumbnail_id;
-    3: FileResourceType resource_type;
 }
 
 struct DroneSendLiveVideoRequest {
@@ -103,12 +90,6 @@ struct DroneLiveVideoStateResult {
   1: DroneLiveVideoState state;
   4: string serial;
   5: i64 timestamp;
-}
-
-struct DroneFileList {
-    1: list<FileEntry> file_entries;
-    2: string serial;
-    3: i64 timestamp;
 }
 
 struct DroneBatteryLevel {
