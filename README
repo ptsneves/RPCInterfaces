@@ -1,0 +1,4 @@
+To generate the interfaces:
+
+/home/pneves/Projects/drohub/thrift/compiler/cpp/thrift -r --gen netstd:pascal drohub.thrift
+/home/pneves/Projects/drohub/thrift/compiler/cpp/thrift -r --gen java:generated_annotations=undated drohub.thrift
